@@ -1,4 +1,4 @@
 # Project3
 
 # Contributors
-Vivek
+- Matteo, Vivek
