@@ -1,17 +1,11 @@
 # Project3
 
-# Contributors
+#### Forms
+- Login
+- Signup
+- Add Post/Edit Post - incl delete
+- Edit Profile - incl delete
 
 
-- Matteo, - Vivek, - Emma
 
-
-
-Team name: Ducks Hunt
-
-
-Idea:
-
-
-Models:
 
