@@ -2,4 +2,5 @@
 
 # Contributors
 
-- Matteo 
+- Matteo, Vivek
+
