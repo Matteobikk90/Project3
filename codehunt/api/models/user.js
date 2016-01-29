@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 var bcrypt   = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({ 
@@ -8,12 +9,10 @@ var userSchema = new mongoose.Schema({
     lastName: { type: String, required: true  },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true }
-  }
+  },
   image: { type: String },
-  bio: { type: String }
-  //reference 'posts'
+  bio: { type: String },
+  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 });
-
-//passport 
 
 module.exports = mongoose.model("User", userSchema);

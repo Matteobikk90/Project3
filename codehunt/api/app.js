@@ -14,11 +14,12 @@ var app            = express();
 var config         = require('./config/config');
 var secret         = require('./config/config').secret;
 
-//require models
+var User = require('./models/user');
+var Post = require('./models/post');
 
 mongoose.connect(config.database);
 
-require('./config/passport')(passport);
+//require('./config/passport')(passport);
 
 app.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -36,6 +37,6 @@ app.use(cors());
 app.use(passport.initialize());
 
 var routes = require('./config/routes');
-app.use("/api", routes);
+app.use("/", routes);
 
 app.listen(3000);
