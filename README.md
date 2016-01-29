@@ -1,4 +1,6 @@
 # Project3
 
 # Contributors
-- Matteo, Vivek
+
+
+- Matteo, - Vivek, - Emma
