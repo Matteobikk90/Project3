@@ -2,5 +2,6 @@
 
 # Contributors
 
-- Matteo, Vivek
+
+- Matteo, - Vivek, - Emma
 
