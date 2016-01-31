@@ -13,8 +13,8 @@ var app            = express();
 
 var config         = require('./config/config');
 var secret         = require('./config/config').secret;
-
 //require models
+var User           = require('./models/user');
 
 mongoose.connect(config.database);
 
@@ -34,6 +34,21 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(passport.initialize());
+
+app.use('/api', expressJWT({ secret: secret })
+  .unless({
+    path: [
+      { url: '/api/signin', methods: ['POST'] },
+      { url: '/api/signup', methods: ['POST'] }
+    ]
+  }));
+
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({message: 'Unauthorized request.'});
+  }
+  next();
+});
 
 var routes = require('./config/routes');
 app.use("/api", routes);
