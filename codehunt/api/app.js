@@ -11,15 +11,14 @@ var jwt            = require('jsonwebtoken');
 var expressJWT     = require('express-jwt');
 var app            = express();
 
-var config         = require('./config/config');
-var secret         = require('./config/config').secret;
-
+var config = require('./config/config');
 var User = require('./models/user');
 var Post = require('./models/post');
+var secret = require('./config/config').secret;
 
 mongoose.connect(config.database);
 
-//require('./config/passport')(passport);
+require('./config/passport')(passport);
 
 app.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -35,6 +34,21 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors());
 app.use(passport.initialize());
+
+app.use('/', expressJWT({ secret: secret })
+  .unless({
+    path: [
+      { url: '/signin', methods: ['POST'] },
+      { url: '/signup', methods: ['POST'] }
+    ]
+}));
+
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({message: 'Unauthorized request.'});
+  }
+  next();
+});
 
 var routes = require('./config/routes');
 app.use("/", routes);
