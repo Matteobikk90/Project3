@@ -15,6 +15,7 @@ var config         = require('./config/config');
 var secret         = require('./config/config').secret;
 //require models
 var User           = require('./models/user');
+// var Post           = require('./models/post');
 
 mongoose.connect(config.database);
 
