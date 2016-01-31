@@ -14,4 +14,12 @@ var postSchema = new mongoose.Schema({
 
 //passport 
 
+postSchema.statics.encrypt = function(password) {
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+postSchema.methods.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.local.password);
+}
+
 module.exports = mongoose.model("Post", postSchema);
