@@ -15,13 +15,13 @@ html {
 }
 
 /*FORM*/
-/*
+
 #new-post, #edit-post, #new-user, #edit-user  {
   display: none;
   padding: 10px;
   background-color: #FAFAFA;
   margin-bottom: 15px;
-}*/
+}
 
 input[type=text] {
   font-size: 16px;
@@ -131,7 +131,7 @@ header nav ul li a {
   overflow: hidden;
 }
 
-.user-tile {
+.post-tile {
   background-color: #FAFAFA;
   width: 100%;
   float: left;
@@ -139,7 +139,7 @@ header nav ul li a {
   margin: 0 15px 15px 0;
 }
 
-.user-tile img {
+.post-tile img {
   width: 100%;
   margin-bottom: 10px;
 }

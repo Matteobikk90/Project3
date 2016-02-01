@@ -13,16 +13,25 @@ router.post('/signup', usersController.signup);
 //user and post routes
 router.route('/')
 	.get(postsController.postsIndex)
+	.post(postsController.addPost);
+
+
+router.route('/:postid')
+	.patch(postsController.updatePost)
+	.delete(postsController.deletePost)
+	.get(postsController.showPost);
+
+
 
 router.route('/:userid')
 	.get(usersController.usersShow)
 	.patch(usersController.usersUpdate)
-	.delete(usersController.usersDelete)
-	.post(postsController.addPost);
+	.delete(usersController.usersDelete);
 
-router.route('/:userid/:postid')
-	.get(postsController.showPost)
-	.patch(postsController.updatePost)
-	.delete(postsController.deletePost);
+
+//router.route('/:userid/:postid'
+//	.get(postsController.showPost
+//	.patch(postsController.updatePost
+//	.delete(postsController.deletePost);
 
 module.exports = router;

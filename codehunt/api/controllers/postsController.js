@@ -12,7 +12,7 @@ function postsIndex(req, res) {
 
 //show individual post
 function showPost(req, res) {
-	User.findById({_id: req.params.userid}, function(err, user) {
+	User.findById({_id: global.currentUser.$__.scope._id}, function(err, user) {
 		if (err) return res.status(500).json({message: "Error"});
 		if (!user) return res.status(400).json({message: "User does not exist"});
 
@@ -28,7 +28,9 @@ function showPost(req, res) {
 
 //create new post
 function addPost(req, res) {
-	User.findById({_id: req.params.userid}, function(err, user) {
+	User.findById({_id: global.currentUser.$__.scope._id}, function(err, user) {
+		
+		
 		if (err) return res.status(400).json({message: "Error"});
 
 		var post = new Post({
@@ -66,11 +68,10 @@ function updatePost(req, res) {
 
 //delete post
 function deletePost(req, res) {
-	var userid = req.params.userid;
 	var postid = req.params.postid;
-
+	console.log(postid);
 	//delete post reference from user
-	User.findById({_id: userid}).populate('posts').exec(function(err, user) {
+	User.findById({_id: global.currentUser.$__.scope._id}).populate('posts').exec(function(err, user) {
 		user.posts.remove({_id: postid});
 		user.save(function(err) {if (err) return res.status(400).json({message: "Error"})});
 	});

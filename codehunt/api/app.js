@@ -45,7 +45,6 @@ app.use('/', expressJWT({ secret: secret })
       { url: '/signin', methods: ['POST'] },
       { url: '/signup', methods: ['POST'] },
       { url: '/', methods: ['GET'] },
-      { url: '/:userid', methods: ['GET'] }
     ]
   }));
 
@@ -53,6 +52,13 @@ app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     return res.status(401).json({message: 'Unauthorized request.'});
   }
+  next();
+});
+
+// get current user
+app.use(function(req, res, next){
+
+  global.currentUser = req.user;
   next();
 });
 

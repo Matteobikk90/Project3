@@ -4,8 +4,9 @@ $(init);
 function init(){
  $("form").on("submit", submitForm);
  $(".logout-link").on("click", logout);
- $(".users-link").on("click", users);
  $(".login-link, .register-link, .users-link").on("click", showPage);
+ $("body").on("click", ".delete", removeItem);
+ $('body').on('click', '.edit', editPost);
  hideErrors();
  checkLoginState();  
 }
@@ -21,7 +22,7 @@ function checkLoginState(){
 function showPage() {
  event.preventDefault();
  var linkClass = $(this).attr("class").split("-")[0]
- $("section").hide();
+ // $("section").hide();
  hideErrors();
  return $("#" + linkClass).show();
 }
@@ -33,12 +34,81 @@ function submitForm(){
  var url    = "http://localhost:3000" + $(this).attr("action");
  var data   = $(this).serialize();
 
+ console.log(method);
+ console.log(url);
+ console.log(data);
+ 
+
  return ajaxRequest(method, url, data, authenticationSuccessful);
 }
 
-function users(){
+// REMOVE item - post or user
+function removeItem(){
+  event.preventDefault();
+  var itemToRemove = $(this).parent();
+  $.ajax({
+    url:'http://localhost:3000/'+$(this).data().id,
+    type:'delete',
+    beforeSend: setRequestHeader
+  }).done(function() {
+    itemToRemove.remove();
+  });
+  // 
+}
+
+
+///////////////////////////////////////////////////////////////
+// EDIT post
+function editPost(){
+  $.ajax({
+    type: 'get',
+    url: 'http://localhost:3000/'+$(this).data().id,
+    beforeSend: setRequestHeader
+  }).done(function(post){
+    console.log(post)
+    $("input#edit-title").val(post.post.title),
+    $("input#edit-description").val(post.post.description),
+    $("input#edit-url").val(post.post.url),
+    $('#edit-post').slideDown()
+    // $('form#edit-post').slideDown()
+  });
+  // Bind the clicked element to our updateUser function so that the updateUser function knows what "this" refers to when the updateUser function runs
+  $('.edit-post').on('submit', updatePost.bind(this));
+}
+
+var updatePost = function(){
+  event.preventDefault();
+  console.log(this)
+  // Get the parent element of the clicked edit anchor tag
+  var postDiv = $(this).parent()
+  console.log(postDiv);
+  var post = {
+    post:{
+      title: $("input#edit-title").val(),
+      description: $("input#edit-description").val(),
+      url: $("input#edit-url").val()
+    }
+  };
+  console.log(post.post)
+  console.log(this)
+  $.ajax({
+    type: 'patch',
+    url: 'http://localhost:3000/'+$(this).data().id,
+    data: post.post,
+    beforeSend: setRequestHeader
+  }).done(function(post){
+    // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
+    postDiv.empty();
+    postDiv.prepend("<div class='post-tile'><h2>" + post.post.title + "</h2><p> " + post.post.description + "</p>"+ post.post.url + "| <br><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post.post._id+"'>Edit</a><br>" + post.post._id + "</div>");
+    $('#edit-post').slideUp()
+  });
+
+}
+
+//////////////////////////////
+function posts(){
  event.preventDefault();
- return getUsers();
+ return getPosts();
 }
 
 
@@ -50,34 +120,24 @@ function logout(){
 }
 
 
-function getUsers(){
- return ajaxRequest("get", "http://localhost:3000", null, displayUsers)
+function getPosts(){
+ return ajaxRequest("get", "http://localhost:3000", null, displayPosts)
 }
 
 
-function displayUsers(data){
+function displayPosts(data){
  hideErrors();
- hideUsers();
- return $.each(data.users, function(index, user) {
-   $(".users").prepend('<div class="media">' +
-                         '<div class="media-left">' +
-                           '<a href="#">' +
-                             '<img class="media-object" src="' + user.local.image +'">' +
-                           '</a>' +
-                         '</div>' +
-                         '<div class="media-body">' +
-                           '<h4 class="media-heading">@' + user.local.username + '</h4>' +
-                           '<p>' + user.local.fullname + '</p>'+
-                         '</div>' +
-                       '</div>');
+ hidePosts();
+ return $.each(data.posts, function(index, post) {
+   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br>" + post._id + "</div>");
+   console.log(post);
  });
 }
 
 
-function hideUsers(){
- return $(".users").empty();
+function hidePosts(){
+ return $(".posts").empty();
 }
-
 
 
 function hideErrors(){
@@ -90,14 +150,14 @@ function displayErrors(data){
 
 function loggedInState(){
  $("section, .logged-out").hide();
- $("#users, .logged-in").show();
- return getUsers();
+ $("#posts, #new-post, .logged-in").show();
+ return getPosts();
 }
 
 function loggedOutState(){
  $("section, .logged-in").hide();
- $("#register, .logged-out").show();
- return hideUsers();
+ $("#signup, #signin, .logged-out").show();
+ return hidePosts();
 }
 
 function authenticationSuccessful(data) {
@@ -134,6 +194,9 @@ function ajaxRequest(method, url, data, callback) {
    displayErrors(data.responseJSON.message);
  });
 }
+
+
+
 
 /*$(init);
 
@@ -254,9 +317,9 @@ function createUser(){
 
 // ADD A USER TO PAGE
 
-function addUser(user){
-  $("#users").prepend("<div class='user-tile'><h2>" + user.name + "</h2><p> " + user.bio + "</p><a href='https://github.com/"+ user.github +"'>Github</a> | <a href='"+ user.portfolio +"'>Portfolio</a><a data-id='"+user._id+"' class='delete' href='#'>Delete</a> | <a data-id='"+user._id+"' class='show' href='#'>Show</a> | <a href='#' class='edit' data-id='"+user._id+"'>Edit</a></div>");
-}
+//function addUser(user){
+//  $("#users").prepend("<div class='user-tile'><h2>" + user.name + "</h2><p> " + user.bio + "</p><a href='https://github.com/"+ user.github +"'>Github</a> | <a href='"+ user.portfolio +"'>Portfolio</a><a data-id='"+user._id+"' class='delete' href='#'>Delete</a> | <a data-id='"+user._id+"' class='show' href='#'>Show</a> | <a href='#' class='edit' data-id='"+user._id+"'>Edit</a></div>");
+//}
 
 // REMOVE USER
 
