@@ -1,15 +1,15 @@
 $(document).ready(function(){
   getUsers();
   // Set up our event listeners
-  $("form#new-user").on("submit", createUser);
-  $("form#new-project").on("submit", createProject);
+  $("form#new-post").on("submit", createUser);
+  // $("form#new-project").on("submit", createProject);
   $("#user-form-button" ).on("click", toggleUserForm);
   $("#user-index-button" ).on("click", toggleShowUsers);
   // Use event delegation to allow for dynamically created elements
   $("body").on("click", ".delete", removeUser);
   $('body').on('click', '.show', showUserProfile)
   $('body').on('click', '.edit', editUser);
-  $('body').on('click', '#addProject', toggleAddProject);
+  // $('body').on('click', '#addProject', toggleAddProject);
 });
 
 // Use JQuery animation functions to hide/show elements 
@@ -40,7 +40,7 @@ function getUsers(){
 // CREATE USER
 
 function toggleUserForm(){
-  $("form#new-user").slideToggle("slow");
+  $("form#new-post").slideToggle("slow");
 }
 
 function createUser(){
@@ -114,14 +114,13 @@ function editUser(){
     method: 'get',
     url: 'http://localhost:3000/users/'+$(this).data().id
   }).done(function(user){
-    $("input#edit-name").val(user.name),
-    $("input#edit-github").val(user.github),
-    $("input#edit-bio").val(user.bio),
-    $("input#edit-portfolio").val(user.portfolio)
-    $('form#edit-user').slideDown()
+    $("input#edit-title").val(user.title),
+    $("input#edit-description").val(user.description),
+    $("input#edit-url").val(user.title),
+    $('form#edit-post').slideDown()
   });
   // Bind the clicked element to our updateUser function so that the updateUser function knows what "this" refers to when the updateUser function runs
-  $('#edit-user').on('submit', updateUser.bind(this));
+  $('#edit-post').on('submit', updateUser.bind(this));
 }
 
 var updateUser = function(){
@@ -130,10 +129,9 @@ var updateUser = function(){
   var userDiv = $(this).parent()
   var user = {
     user:{
-      name: $("input#edit-name").val(),
-      bio: $("input#edit-bio").val(),
-      github: $("input#edit-github").val(),
-      portfolio: $("input#edit-portfolio").val()
+      name: $("input#edit-title").val(),
+      bio: $("input#edit-description").val(),
+      github: $("input#edit-url").val(),
     }
   };
   $.ajax({
@@ -147,35 +145,35 @@ var updateUser = function(){
   });
 }
 
-// ADD PROJECT
+// // ADD PROJECT
 
-function toggleAddProject(){
-  $("form#new-project").slideToggle("slow");
-}
+// function toggleAddProject(){
+//   $("form#new-project").slideToggle("slow");
+// }
 
-function createProject(){
-  event.preventDefault();
-  $.ajax({
-    url:'http://localhost:3000/projects',
-    type:'post',
-    data: { project: {
-      "title": $("input#project-title").val(),
-      "description": $("input#project-description").val(),
-      "github": $("input#project-github").val(),
-      "website": $("input#project-website").val(),
-      "user" : $('#username').html()
-    }
-  }
-  }).done(function(project) {
-    addProject(project)
-    toggleAddProject();
-    $("input#project-title").val(null),
-    $("input#project-description").val(null),
-    $("input#project-github").val(null),
-    $("input#project-website").val(null)
-  });
-}
+// function createProject(){
+//   event.preventDefault();
+//   $.ajax({
+//     url:'http://localhost:3000/projects',
+//     type:'post',
+//     data: { project: {
+//       "title": $("input#project-title").val(),
+//       "description": $("input#project-description").val(),
+//       "github": $("input#project-github").val(),
+//       "website": $("input#project-website").val(),
+//       "user" : $('#username').html()
+//     }
+//   }
+//   }).done(function(project) {
+//     addProject(project)
+//     toggleAddProject();
+//     $("input#project-title").val(null),
+//     $("input#project-description").val(null),
+//     $("input#project-github").val(null),
+//     $("input#project-website").val(null)
+//   });
+// }
 
-function addProject(project){
-  $('#projects').prepend("<div class='project-tile'><h2>"+ project.title +"</h2><p>"+ project.description +"</p><a href='https://github.com/"+ project.github +"'>Github</a> | <a href='"+ project.website +"'>Website</a></div>")
-}
+// function addProject(project){
+//   $('#projects').prepend("<div class='project-tile'><h2>"+ project.title +"</h2><p>"+ project.description +"</p><a href='https://github.com/"+ project.github +"'>Github</a> | <a href='"+ project.website +"'>Website</a></div>")
+// }

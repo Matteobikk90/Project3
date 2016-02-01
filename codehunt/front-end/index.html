@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Yearbook</title>
+  <title>CodeHunt</title>
   <link rel="stylesheet" type="text/css" href="./css/reset.css">
   <link rel="stylesheet" type="text/css" href="./css/style.css">
 
@@ -20,42 +20,51 @@
     </nav>
   </header>
   <main>
+
+    <form id="new-post" >
+      <input type="text" name='title' id="title" placeholder="Title">
+      <input type="text" name='description' id="description" placeholder="Description">
+      <input type="text" name='url' id="url" placeholder="URL:">
+      <input type="submit" value='Save' id="submit">
+    </form>
+
+    <form id="edit-post" >
+      <input type="text" name='edit-title' id="edit-title"  placeholder="Title">
+      <input type="text" name='edit-description' id="edit-description"  placeholder="Title">
+      <input type="text" name='edit-url' id="edit-url"  placeholder="Title">
+      <input type="submit" value='Save' id="submit" placeholder="Title">
+    </form>
+
     <form id="new-user" >
-      <input type="text" name='name' id="name" placeholder="Name">
-      <input type="text" name='github' id="github" placeholder="Github">
-      <input type="text" name='bio' id="bio" placeholder="Bio">
-      <input type="text" name='portfolio' id="portfolio" placeholder="Portfolio">
+      <input type="username" name='user-username' id="user-username" placeholder="username (required)">
+      <input type="firstname" name='user-firstName' id="user-firstName" placeholder="First Name (required)">
+      <input type="lastName" name='user-lastName' id="user-lastName" placeholder="Last Name (required)">
+      <input type="email" name='user-email' id="user-email" placeholder="email (required)">
       <input type="submit" value='Save' id="submit">
     </form>
 
     <form id="edit-user" >
-      <input type="text" name='edit-name' id="edit-name">
-      <input type="text" name='edit-github' id="edit-github">
-      <input type="text" name='edit-bio' id="edit-bio">
-      <input type="text" name='edit-portfolio' id="edit-portfolio">
+      <input type="username" name='edit-username' id="user-username" placeholder="username (required)">
+      <input type="firstname" name='edit-firstName' id="user-firstName" placeholder="First Name (required)">
+      <input type="lastName" name='edit-lastName' id="user-lastName" placeholder="Last Name (required)">
+      <input type="email" name='edit-email' id="user-email" placeholder="email (required)">
       <input type="submit" value='Save' id="submit">
     </form>
 
-<!--     <form id="new-project" >
-      <input type="text" name='project-title' id="project-title" placeholder="Title">
-      <input type="text" name='project-description' id="project-description" placeholder="Description">
-      <input type="text" name='project-github' id="project-github" placeholder="Github">
-      <input type="text" name='project-website' id="project-website" placeholder="Website">
-      <input type="submit" value='Save' id="submit">
-    </form>
 
- -->
-
+<!-- This div needs to be dynamic to show the week -->
  <div id="week-divider">
    <i> WEEK FROM 21st JANUARY TO 28th JANUARY</i>
-
+   <br>
+   <div id="users">
+   </div>
+   <div id="show">
+   </div>
  </div>
 
- <br>
-    <div id="users">
-    </div>
-    <div id="show">
-    </div>
+
+<!--     this is where the post tiles will be prepended -->
+
     <div id="projects">
     </div>
   </main>

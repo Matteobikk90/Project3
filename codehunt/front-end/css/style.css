@@ -16,7 +16,7 @@ html {
 
 /*FORM*/
 
-#new-user, #edit-user, #new-project {
+#new-post, #edit-post, #new-user, #edit-user  {
   display: none;
   padding: 10px;
   background-color: #FAFAFA;
