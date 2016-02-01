@@ -16,10 +16,13 @@ var User = require('./models/user');
 var Post = require('./models/post');
 var secret = require('./config/config').secret;
 
+//mongoose database setup
 mongoose.connect(config.database);
 
+//require passport
 require('./config/passport')(passport);
 
+//method override
 app.use(methodOverride(function(req, res){
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     var method = req.body._method
@@ -35,6 +38,7 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(passport.initialize());
 
+//restrict routes
 app.use('/', expressJWT({ secret: secret })
   .unless({
     path: [
@@ -50,6 +54,7 @@ app.use(function (err, req, res, next) {
   next();
 });
 
+//routes
 var routes = require('./config/routes');
 app.use("/", routes);
 

@@ -15,10 +15,12 @@ var userSchema = new mongoose.Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 });
 
+//passport - encrypt password
 userSchema.statics.encrypt = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
+//passport - check password is the same
 userSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.local.password);
 }

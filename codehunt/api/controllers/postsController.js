@@ -1,3 +1,4 @@
+//require models
 var Post = require('../models/post');
 var User = require('../models/user');
 

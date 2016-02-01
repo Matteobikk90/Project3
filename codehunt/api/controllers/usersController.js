@@ -1,9 +1,12 @@
 var passport = require("passport");
 var secret   = require('../config/config').secret 
 var jwt      = require('jsonwebtoken');
+
+//require models
 var Post = require('../models/post');
 var User = require('../models/user');
 
+//passport signup strategy
 function signup(req, res, next) {
   var localStrategy = passport.authenticate('local-signup', function(err, user, info) {
     if (err) return res.status(500).json({ message: 'Something went wrong!' });
@@ -11,11 +14,9 @@ function signup(req, res, next) {
     if (!user) return res.status(401).json({ message: 'User already exists!' });
 
     // User has authenticated so issue token 
-
     var token = jwt.sign(user, secret, { expiresIn: 60*60*24 });
 
     // Send back the token to the front-end to store
-    
     return res.status(200).json({ 
       success: true,
       message: "Thank you for authenticating",
@@ -27,7 +28,7 @@ function signup(req, res, next) {
   return localStrategy(req, res, next);
 };
 
-
+//passport signin strategy
 function signin(req, res, next) {
   User.findOne({
     "local.email": req.body.email
