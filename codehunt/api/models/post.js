@@ -8,8 +8,8 @@ var postSchema = new mongoose.Schema({
     description: { type: String },
     url: { type: String, required: true },
     user: { type: Schema.Types.ObjectId, ref: 'User' }
-},
-{
+	},
+	{
     timestamps: { 
       createdAt: 'created_at',
       updatedAt: 'updated_at'
