@@ -13,9 +13,7 @@ var app            = express();
 
 var config         = require('./config/config');
 var secret         = require('./config/config').secret;
-//require models
 var User           = require('./models/user');
-// var Post           = require('./models/post');
 
 mongoose.connect(config.database);
 
@@ -39,8 +37,8 @@ app.use(passport.initialize());
 app.use('/api', expressJWT({ secret: secret })
   .unless({
     path: [
-      { url: '/api/signin', methods: ['POST'] },
-      { url: '/api/signup', methods: ['POST'] }
+      { url: '/signin', methods: ['POST'] },
+      { url: '/signup', methods: ['POST'] }
     ]
   }));
 
@@ -52,6 +50,6 @@ app.use(function (err, req, res, next) {
 });
 
 var routes = require('./config/routes');
-app.use("/api", routes);
+app.use("/", routes);
 
 app.listen(3000);

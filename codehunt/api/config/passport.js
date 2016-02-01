@@ -3,7 +3,6 @@ var User = require("../models/user");
 
 module.exports = function(passport) {
 
-
   passport.use('local-signup', new LocalStrategy({
     usernameField: "email",
     passwordField: "password",
@@ -25,8 +24,8 @@ module.exports = function(passport) {
       var newUser            = new User();
       newUser.local.email    = email;
       newUser.local.username = req.body.username;
-      newUser.local.fullname = req.body.fullname;
-      newUser.local.image    = req.body.image;
+      newUser.local.firstName = req.body.firstName;
+      newUser.local.lastName = req.body.lastName;
       newUser.local.password = User.encrypt(password);
 
       newUser.save(function(err, user) {

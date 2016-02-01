@@ -11,10 +11,7 @@ var userSchema = new mongoose.Schema({
   },
   image: { type: String },
   bio: { type: String }
-  //reference 'posts'
 });
-
-//passport 
 
 userSchema.statics.encrypt = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
