@@ -24,7 +24,7 @@ function signup(req, res, next) {
       user: user
     });
   });
-
+  
   return localStrategy(req, res, next);
 };
 
