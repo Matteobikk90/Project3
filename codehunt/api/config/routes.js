@@ -23,7 +23,7 @@ router.route('/:postid')
 
 
 
-router.route('/:userid')
+router.route('/profile/:userid')
 	.get(usersController.usersShow)
 	.patch(usersController.usersUpdate)
 	.delete(usersController.usersDelete);

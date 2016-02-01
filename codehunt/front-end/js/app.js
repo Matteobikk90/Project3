@@ -1,7 +1,10 @@
 
+
 $(init);
 
+
 function init(){
+  console.log('hello')
  $("form").on("submit", submitForm);
  $(".logout-link").on("click", logout);
  $(".login-link, .register-link, .users-link").on("click", showPage);
@@ -99,10 +102,8 @@ var updatePost = function(){
   }).done(function(post){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     postDiv.empty();
-    postDiv.prepend("<div class='post-tile'><h2>" + post.post.title + "</h2><p> " + post.post.description + "</p>"+ post.post.url + "| <br><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post.post._id+"'>Edit</a><br>" + post.post._id + "</div>");
-    $('#edit-post').slideUp()
+    postDiv.prepend("<div class='post-tile'><h2>" + post.post.title + "</h2><p> " + post.post.description + "</p>"+ post.post.url + "| <br><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post.post._id+"'>Edit</a><br><a href='" + post.post.user.local._id + "'>" + post.post.user.username + "</a></div>").slideUp()
   });
-
 }
 
 //////////////////////////////
@@ -128,9 +129,11 @@ function getPosts(){
 function displayPosts(data){
  hideErrors();
  hidePosts();
+ console.log(data)
  return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
-   console.log(post);
+   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='profile.html'>" + post.user.local.username + "</a></div>");
+   // console.log(post);
+   // $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='profile.html/" + post.user._id + "'>" + post.user.local.username + "</a></div>");
  });
 }
 
@@ -150,23 +153,26 @@ function displayErrors(data){
 
 function loggedInState(){
  $("section, .logged-out").hide();
- $("#posts, #new-post, .logged-in").show();
+ $("#posts, #new-post, #edit-user, .logged-in").show();
  return getPosts();
 }
 
 function loggedOutState(){
+  console.log('loggedOutState')
  $("section, .logged-in").hide();
  $("#signup, #signin, .logged-out").show();
  return hidePosts();
 }
 
 function authenticationSuccessful(data) {
- if (data.token) setToken(data.token);
+ if (data.token) setToken(data);
  return checkLoginState();
 }
 
-function setToken(token) {
- return localStorage.setItem("token", token)
+function setToken(data) {
+  // debugger;
+  localStorage.setItem("userID", data.user._id )
+  localStorage.setItem("token", data.token)
 }
 
 function getToken() {

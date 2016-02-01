@@ -1,1 +1,117 @@
-<h1>Workingggg</h1>
+
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Profile</title>
+
+  <link rel="stylesheet" type="text/css" href="./css/reset.css">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/profile.js"></script>
+</head>
+
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><a id="index-button" href="#">CodeHunt</a></li> 
+
+        <li><a id="user-form-button" href="#" style="font-size: 40px">+</a></li>
+        <li><a class="register-link logged-out" href="/">Register</a></li>
+        <li><a class="login-link logged-out" href="/">Login</a></li>
+        <li><a class="logout-link logged-in" href="/">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+
+  <br>
+  <div class="hide alert alert-danger" role="alert"></div>
+  <br>
+
+  <div id="profileDiv">
+	  <br>
+  		<div id="newTitle"></div>
+  	  <br>
+  </div>
+
+  <section id="new-post"> 
+    <form class="new-post" method="post" action="/">
+      <input type="text" name='title' id="title" placeholder="Title">
+      <input type="text" name='description' id="description" placeholder="Description">
+      <input type="text" name='url' id="url" placeholder="URL:">
+      <input type="submit" value='Save' id="submit">
+    </form>
+  </section>
+
+  <section id="edit-post">
+    <form class="edit-post" method="patch" action="/" >
+      <input type="text" name='title' id="edit-title"  placeholder="Title">
+      <input type="text" name='description' id="edit-description"  placeholder="Description">
+      <input type="text" name='url' id="edit-url"  placeholder="URL:">
+      <input type="submit" value='Save' id="submit">
+    </form>
+  </section>  
+
+
+  <section id="signup">
+    <form class="signup" id="signup" method="post" action="/signup">
+      <input type="text" name='username' id="username" placeholder="username (required)">
+      <input type="text" name='firstName' id="firstName" placeholder="First Name (required)">
+      <input type="text" name='lastName' id="lastName" placeholder="Last Name (required)">
+      <input type="email" name='email' id="email" placeholder="email (required)">
+      <input type="password" name='password' id="password" placeholder="password (required)">      
+      <input type="submit" value='Save' id="submit">
+    </form>
+  </section>  
+    
+  <section id="signin">
+    <form class="signin" id="signin" method="post" action="/signin">
+      <input type="email" name='email' id="email" placeholder="email (required)">
+      <input type="password" name='password' id="password" placeholder="password (required)">
+      <input type="submit" value='Save' id="submit">
+    </form>
+  </section>    
+
+  <section id="edit-user">  
+    <form class="edit-user" method="patch" action="/profile"  >
+      <input type="text" name='edit-username' id="edit-username" placeholder="username (required)">
+      <input type="text" name='edit-firstName' id="edit-firstName" placeholder="First Name (required)">
+      <input type="text" name='edit-lastName' id="edit-lastName" placeholder="Last Name (required)">
+      <input type="email" name='edit-email' id="edit-email" placeholder="email (required)">
+      <input type="password" name='password' id="edit-password" placeholder="password (required)">
+      <input type="text" name='image' id="edit-image" placeholder="image URL">
+      <input type="text" name='bio' id="edit-bio" placeholder="bio">
+      <input type="submit" value='Save' id="submit">
+    </form>
+  </section>    
+
+<!-- This div needs to be dynamic to show the week -->
+
+<section id="posts">
+
+ <div id="week-divider">
+
+   <i> WEEK FROM 21st JANUARY TO 28th JANUARY</i>
+   <br>
+
+   <div class="posts"></div>
+
+<!--<div id="users">
+   </div>
+   <div id="show">
+   </div -->
+ </div>
+
+</section>
+
+<!--     this is where the post tiles will be prepended -->
+
+    <div id="projects">
+    </div>
+  </main>
+</body>
+</html>

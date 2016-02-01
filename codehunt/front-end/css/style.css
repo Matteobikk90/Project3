@@ -14,9 +14,22 @@ html {
   box-sizing: border-box;
 }
 
+
+/*PROFILE*/
+
+#profileDiv {
+  font-size: 36px;
+  font-family: proxima-nova,Proxima Nova,helvetica,arial,sans-serif;
+  padding: 5px 10px;
+  border: 1px solid black;
+  margin-right: 5px;
+}
+
+
+
 /*FORM*/
 
-#new-post, #edit-post, #new-user, #edit-user  {
+#new-post, #edit-post, #new-user,/* #edit-user */ {
   display: none;
   padding: 10px;
   background-color: #FAFAFA;
