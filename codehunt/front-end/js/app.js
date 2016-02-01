@@ -129,7 +129,7 @@ function displayPosts(data){
  hideErrors();
  hidePosts();
  return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br>" + post._id + "</div>");
+   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
    console.log(post);
  });
 }
