@@ -7,6 +7,8 @@ var postSchema = new mongoose.Schema({
     title: { type: String, required: true },
     description: { type: String },
     url: { type: String, required: true },
+    category: { type: String },
+    language: { type: String },
     user: { type: Schema.Types.ObjectId, ref: 'User' }
 	},
 	{

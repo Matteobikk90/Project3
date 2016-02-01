@@ -37,6 +37,8 @@ function addPost(req, res) {
 			title: req.body.title,
 			description: req.body.description,
 			url: req.body.url,
+			category: req.body.category,
+			language: req.body.language,
 			user: user._id
 		});
 
@@ -58,6 +60,8 @@ function updatePost(req, res) {
 		if (req.body.title) post.title = req.body.title;
 		if (req.body.description) post.description = req.body.description;
 		if (req.body.url) post.url = req.body.url;
+		if (req.body.category) post.category = req.body.category;
+		if (req.body.language) post.language = req.body.language;
 
 		post.save(function(err) {
 			if (err) return res.status(500).json({message: "Error"});
