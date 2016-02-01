@@ -1,21 +1,202 @@
-$(document).ready(function(){
-  getUsers();
+
+$(init);
+
+function init(){
+ $("form").on("submit", submitForm);
+ $(".logout-link").on("click", logout);
+ $(".users-link").on("click", users);
+ $(".login-link, .register-link, .users-link").on("click", showPage);
+ hideErrors();
+ checkLoginState();  
+}
+
+function checkLoginState(){
+ if (getToken()) {
+   return loggedInState();
+ } else {
+   return loggedOutState();
+ }
+}
+
+function showPage() {
+ event.preventDefault();
+ var linkClass = $(this).attr("class").split("-")[0]
+ $("section").hide();
+ hideErrors();
+ return $("#" + linkClass).show();
+}
+
+function submitForm(){
+ event.preventDefault();
+
+ var method = $(this).attr("method");
+ var url    = "http://localhost:3000" + $(this).attr("action");
+ var data   = $(this).serialize();
+
+ return ajaxRequest(method, url, data, authenticationSuccessful);
+}
+
+function users(){
+ event.preventDefault();
+ return getUsers();
+}
+
+
+
+function logout(){
+ event.preventDefault();
+ removeToken();
+ return loggedOutState();
+}
+
+
+function getUsers(){
+ return ajaxRequest("get", "http://localhost:3000", null, displayUsers)
+}
+
+
+function displayUsers(data){
+ hideErrors();
+ hideUsers();
+ return $.each(data.users, function(index, user) {
+   $(".users").prepend('<div class="media">' +
+                         '<div class="media-left">' +
+                           '<a href="#">' +
+                             '<img class="media-object" src="' + user.local.image +'">' +
+                           '</a>' +
+                         '</div>' +
+                         '<div class="media-body">' +
+                           '<h4 class="media-heading">@' + user.local.username + '</h4>' +
+                           '<p>' + user.local.fullname + '</p>'+
+                         '</div>' +
+                       '</div>');
+ });
+}
+
+
+function hideUsers(){
+ return $(".users").empty();
+}
+
+
+
+function hideErrors(){
+ return $(".alert").removeClass("show").addClass("hide");
+}
+
+function displayErrors(data){
+ return $(".alert").text(data).removeClass("hide").addClass("show");
+}
+
+function loggedInState(){
+ $("section, .logged-out").hide();
+ $("#users, .logged-in").show();
+ return getUsers();
+}
+
+function loggedOutState(){
+ $("section, .logged-in").hide();
+ $("#register, .logged-out").show();
+ return hideUsers();
+}
+
+function authenticationSuccessful(data) {
+ if (data.token) setToken(data.token);
+ return checkLoginState();
+}
+
+function setToken(token) {
+ return localStorage.setItem("token", token)
+}
+
+function getToken() {
+ return localStorage.getItem("token");
+}
+
+function removeToken() {
+ return localStorage.clear();
+}
+
+function setRequestHeader(xhr, settings) {
+ var token = getToken();
+ if (token) return xhr.setRequestHeader('Authorization','Bearer ' + token);
+}
+
+function ajaxRequest(method, url, data, callback) {
+ return $.ajax({
+   method: method,
+   url: url,
+   data: data,
+   beforeSend: setRequestHeader,
+ }).done(function(data){
+   if (callback) return callback(data);
+ }).fail(function(data) {
+   displayErrors(data.responseJSON.message);
+ });
+}
+
+/*$(init);
+
+function init() {
   // Set up our event listeners
-  $("form#new-post").on("submit", createUser);
+  $("form").on("submit", submitForm);
   // $("form#new-project").on("submit", createProject);
-  $("#user-form-button" ).on("click", toggleUserForm);
-  $("#user-index-button" ).on("click", toggleShowUsers);
+  //$("#user-form-button" ).on("click", toggleUserForm);
+  //$("#user-index-button" ).on("click", toggleShowUsers);
   // Use event delegation to allow for dynamically created elements
-  $("body").on("click", ".delete", removeUser);
-  $('body').on('click', '.show', showUserProfile)
-  $('body').on('click', '.edit', editUser);
-  // $('body').on('click', '#addProject', toggleAddProject);
-});
+  //$("body").on("click", ".delete", removeUser);
+  //$('body').on('click', '.show', showUserProfile)
+  //$('body').on('click', '.edit', editUser);
+
+}
+
+// GENERIC FUNCTION TO SEND THE FORM INPUT
+
+function submitForm(){
+ event.preventDefault();
+
+ var method = $(this).attr("method");
+ var url    = "http://localhost:3000" + $(this).attr("action");
+ var data   = $(this).serialize();
+  
+  console.log(method + url + data);
+
+ return ajaxRequest(method, url, data, authentcationSuccessful);
+}
+
+//
+
+function authenticationSuccessful(data) {
+ if (data.token) setToken(data.token);
+ return checkLoginState();
+}
+
+// 
+
+function setRequestHeader(xhr, settings) {
+ var token = getToken();
+ if (token) return xhr.setRequestHeader('Authorization','Bearer ' + token);
+}
+
+// GENERIC FORM SUBMISSION AJAX FUNCTION
+
+function ajaxRequest(method, url, data, callback) {
+ return $.ajax({
+   method: method,
+   url: url,
+   data: data,
+   beforeSend: setRequestHeader,
+ }).done(function(data){
+   if (callback) return callback(data);
+ }).fail(function(data) {
+   displayErrors(data.responseJSON.message);
+ });
+}
 
 // Use JQuery animation functions to hide/show elements 
 // TOGGLE INDEX PAGE
 
-function toggleShowUsers(){
+ function toggleShowUsers(){
   $("#show").slideUp("slow");
   $("#projects").slideUp("slow");
   setTimeout(function(){
@@ -25,10 +206,12 @@ function toggleShowUsers(){
   }, 600);
 }
 
+/*
+
 // GET ALL USERS
 
 function getUsers(){
-  var ajax = $.get('http://localhost:3000/users')
+  var ajax = $.get('http://localhost:3000')
   .done(function(data){
     console.log(data)
     $.each(data, function(index, user){
@@ -36,6 +219,8 @@ function getUsers(){
     });
   });
 }
+
+
 
 // CREATE USER
 
@@ -47,7 +232,7 @@ function createUser(){
   event.preventDefault();
 
   $.ajax({
-    url:'http://localhost:3000/users',
+    url:'http://localhost:3000',
     type:'post',
     data: { user: {
       "name": $("input#name").val(),
@@ -79,7 +264,7 @@ function removeUser(){
   event.preventDefault();
   var itemToRemove = $(this).parent();
   $.ajax({
-    url:'http://localhost:3000/users/'+$(this).data().id,
+    url:'http://localhost:3000/'+$(this).data().id,
     type:'delete'
   }).done(function() {
     itemToRemove.remove();
@@ -93,7 +278,7 @@ function showUserProfile(){
   $('#users').slideUp();
   $.ajax({
     method: 'GET',
-    url: 'http://localhost:3000/users/'+$(this).data().id
+    url: 'http://localhost:3000/'+$(this).data().id
   }).done(function(user){
     $('#show').prepend("<div class='user-tile' data-id="+ user._id +"><h2 id='username'>" + user.name + "</h2><p> " + user.bio + "</p><a href='https://github.com/"+ user.github +"'>Github</a> | <a href='"+ user.portfolio +"'>Portfolio</a></div>");
     $.each(user.projects, function(index, project){
@@ -112,7 +297,7 @@ function showUserProfile(){
 function editUser(){
   $.ajax({
     method: 'get',
-    url: 'http://localhost:3000/users/'+$(this).data().id
+    url: 'http://localhost:3000/'+$(this).data().id
   }).done(function(user){
     $("input#edit-title").val(user.title),
     $("input#edit-description").val(user.description),
@@ -136,7 +321,7 @@ var updateUser = function(){
   };
   $.ajax({
     method: 'patch',
-    url: 'http://localhost:3000/users/'+$(this).data().id,
+    url: 'http://localhost:3000/'+$(this).data().id,
     data: user
   }).done(function(updatedUser){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
@@ -145,35 +330,36 @@ var updateUser = function(){
   });
 }
 
-// // ADD PROJECT
+// ADD PROJECT
 
-// function toggleAddProject(){
-//   $("form#new-project").slideToggle("slow");
-// }
+function toggleAddProject(){
+  $("form#new-project").slideToggle("slow");
+}
 
-// function createProject(){
-//   event.preventDefault();
-//   $.ajax({
-//     url:'http://localhost:3000/projects',
-//     type:'post',
-//     data: { project: {
-//       "title": $("input#project-title").val(),
-//       "description": $("input#project-description").val(),
-//       "github": $("input#project-github").val(),
-//       "website": $("input#project-website").val(),
-//       "user" : $('#username').html()
-//     }
-//   }
-//   }).done(function(project) {
-//     addProject(project)
-//     toggleAddProject();
-//     $("input#project-title").val(null),
-//     $("input#project-description").val(null),
-//     $("input#project-github").val(null),
-//     $("input#project-website").val(null)
-//   });
-// }
+function createProject(){
+  event.preventDefault();
+  $.ajax({
+    url:'http://localhost:3000/projects',
+    type:'post',
+    data: { project: {
+      "title": $("input#project-title").val(),
+      "description": $("input#project-description").val(),
+      "github": $("input#project-github").val(),
+      "website": $("input#project-website").val(),
+      "user" : $('#username').html()
+    }
+  }
+  }).done(function(project) {
+    addProject(project)
+    toggleAddProject();
+    $("input#project-title").val(null),
+    $("input#project-description").val(null),
+    $("input#project-github").val(null),
+    $("input#project-website").val(null)
+  });
+}
 
-// function addProject(project){
-//   $('#projects').prepend("<div class='project-tile'><h2>"+ project.title +"</h2><p>"+ project.description +"</p><a href='https://github.com/"+ project.github +"'>Github</a> | <a href='"+ project.website +"'>Website</a></div>")
-// }
+function addProject(project){
+  $('#projects').prepend("<div class='project-tile'><h2>"+ project.title +"</h2><p>"+ project.description +"</p><a href='https://github.com/"+ project.github +"'>Github</a> | <a href='"+ project.website +"'>Website</a></div>")
+}
+*/
