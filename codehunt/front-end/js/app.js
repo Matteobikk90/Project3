@@ -80,10 +80,8 @@ function editPost(){
 
 var updatePost = function(){
   event.preventDefault();
-  console.log(this)
   // Get the parent element of the clicked edit anchor tag
   var postDiv = $(this).parent()
-  console.log(postDiv);
   var post = {
     post:{
       title: $("input#edit-title").val(),
@@ -91,8 +89,6 @@ var updatePost = function(){
       url: $("input#edit-url").val()
     }
   };
-  console.log(post.post)
-  console.log(this)
   $.ajax({
     type: 'patch',
     url: 'http://localhost:3000/'+$(this).data().id,
@@ -101,8 +97,8 @@ var updatePost = function(){
   }).done(function(post){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     postDiv.empty();
-    postDiv.prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
-    $('#edit-post').slideUp()
+    postDiv.prepend("<h2><a href='" + post.post.url + "'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "<p>" + post.post.category + "</p>" + "<p>" + post.post.language + "</p>" + "<br><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post.post._id+"'>Edit</a><br><a href='/profile.html'>" + post.post.user.local.username + "</a>");
+    $('#edit-post').slideUp();
   });
 }
 
@@ -121,13 +117,13 @@ function getPosts(){
  return ajaxRequest("get", "http://localhost:3000", null, displayPosts)
 }
 
+
+
 function displayPosts(data){
  hideErrors();
  hidePosts();
  return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>"
-
-);
+   $(".posts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
    console.log(post);
  });
 }

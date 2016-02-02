@@ -79,11 +79,29 @@ function usersUpdate(req, res) {
 
 //delete user
 function usersDelete(req, res) {
-  User.findByIdAndRemove({_id: req.params.userid}, function(err) {
+  User.findById({_id: global.currentUser.$__.scope._id}).populate('posts').exec(function(err, user) {
+     user.posts.forEach(function(post) {
+         post.remove();
+         console.log('post removed');
+     });
+    user.remove();
+    console.log('user removed');
     if (err) return res.status(404).json({message: "Error - User not deleted."});
     res.status(200).json({message: 'User deleted'});
   });
 }
+
+
+//delete user
+/* function usersDelete(req, res) {
+  User.findByIdAndRemove({_id: global.currentUser.$__.scope._id}, function(err) {
+
+    
+
+    if (err) return res.status(404).json({message: "Error - User not deleted."});
+    res.status(200).json({message: 'User deleted'});
+  });
+}*/
 
 //exports
 module.exports = {

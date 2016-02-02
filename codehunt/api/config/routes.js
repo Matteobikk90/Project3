@@ -20,7 +20,7 @@ router.route('/:postid')
 	.delete(postsController.deletePost)
 	.get(postsController.showPost);
 
-router.route('/:userid')
+router.route('/user/:userid')
 	.get(usersController.usersShow)
 	.patch(usersController.usersUpdate)
 	.delete(usersController.usersDelete);

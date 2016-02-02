@@ -30,7 +30,6 @@ function showPost(req, res) {
 function addPost(req, res) {
 	User.findById({_id: global.currentUser.$__.scope._id}, function(err, user) {
 		
-		
 		if (err) return res.status(400).json({message: "Error"});
 
 		var post = new Post({
@@ -53,7 +52,8 @@ function addPost(req, res) {
 
 //update post
 function updatePost(req, res) {
-	Post.findById({_id: req.params.postid}, function(err, post) {
+
+	Post.findById({_id: req.params.postid}).populate('user').exec(function(err, post) {
 		if (err) return res.status(500).json({message: "Error"});
 		if (!post) return res.status(400).json({message: "Post does not exist"});
 
@@ -61,12 +61,13 @@ function updatePost(req, res) {
 		if (req.body.description) post.description = req.body.description;
 		if (req.body.url) post.url = req.body.url;
 		if (req.body.category) post.category = req.body.category;
-		if (req.body.language) post.language = req.body.language;
+		if (req.body.language) post.language = req.body.language; 
 
-		post.save(function(err) {
+		post.save(function(err, updatedPost) {
 			if (err) return res.status(500).json({message: "Error"});
-			res.status(201).json({post: post});
+			res.status(201).json({post: updatedPost});
 		});
+
 	});
 }
 
