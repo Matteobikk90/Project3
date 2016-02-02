@@ -127,10 +127,38 @@ function displayPosts(data){
  hidePosts();
  console.log(data)
  return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
-   console.log(post);
+    
+
+   // $(".posts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+   // console.log(post);
+   // console.log(post.created_at);
+   var n=Date.now();
+   var d=new Date(Date.now())
+   var c=new Date(post.created_at)
+   // console.log(d)
+   // console.log(c)
+
+   /////////////////////////////////////////////////
+   // TAKE OFF THE *10 FOR THE DATE TO BE CORRECT //
+   /////////////////////////////////////////////////
+   
+   var i = (d-c)/24/60/60/1000*10
+
+   console.log(i)
+
+   if (i<7) {
+    $(".weekposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+   } 
+   else if (i>28) {
+    $(".earlierposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+   } else {
+    $(".monthposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+   }
+
+
  });
 }
+
 
 
 function hidePosts(){

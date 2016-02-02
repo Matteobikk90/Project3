@@ -148,8 +148,24 @@ function displayUserPosts(data){
  hideErrors();
  hidePosts();
  return $.each(data.user.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a></div>");
-   // console.log(post);
+   // $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a></div>"); 
+   var n=Date.now();
+   var d=new Date(Date.now())
+   var c=new Date(post.created_at)
+   /////////////////////////////////////////////////
+   // TAKE OFF THE *10 FOR THE DATE TO BE CORRECT //
+   /////////////////////////////////////////////////   
+   var i = (d-c)/24/60/60/1000*10
+   console.log(i)
+
+   if (i<7) {
+    $(".weekposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br></div>");
+   } 
+   else if (i>28) {
+    $(".earlierposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a></div>");
+   } else {
+    $(".monthposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a></div>");
+   }
  });
 }
 
