@@ -1,34 +1,30 @@
-
-
 $(init);
-
 
 function init(){
  $("form").on("submit", submitForm);
- $(".logout-link").on("click", logout);
- // $(".login-link, .register-link, .users-link").on("click", showPage);
+ $(".logout-link").on("click", logout); 
+ $(".login-link").on("click", signin);
+ $(".register-link").on("click", signup);
  $("body").on("click", ".delete", removeItem);
- $('body').on('click', '.edit', editUser);
- // console.log("hello")
- console.log(localStorage.getItem("userID"));
+ $('body').on('click', '.editUser', editUser);
+ $('body').on('click', '.editPost', editPost);
+ $('#user-form-button').on('click', newPost);
  getName();
- // hideErrors();
- checkLoginState();  
+ hideErrors();
+ checkLoginState();    
 }
-
 
 function getName(){
 	var url = "http://localhost:3000/profile/" + localStorage.getItem("userID")
 	console.log(url)
- return ajaxRequest("get", url, null, displayUserName)
+ return ajaxRequest("get", url, null, displayUser)
 }
 
-function displayUserName(data){
+function displayUser(data){
 	// console.log(data)
 	// console.log(data.user.local.firstName)
-   $("#newTitle").prepend(data.user.local.firstName + "'s CodeHunt <br>Last name: " + data.user.local.lastName + "<br>username: " + data.user.local.username + "<br>email: " + data.user.local.email + "<br>bio: " + data.user.bio + "<br>image: " + data.user.image + "<br><a data-id='"+ data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+data.user._id+"'>Edit</a>"); 
+   $("#newTitle").prepend("<div class='user-tile'><div class='row'><div class='col-md-12'><img src='" + data.user.image + "' height='200'>" + "<h2>" + data.user.local.firstName + " " + data.user.local.lastName + "</h2><h4>" + data.user.local.username  + "</h4><p>" + data.user.bio + "</p>" + "<a data-id='"+data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editUser' data-id='"+data.user._id+"'>Edit</a><br>" + "</div></div>"); 
  };
-
 
 function checkLoginState(){
  if (getToken()) {
@@ -38,9 +34,26 @@ function checkLoginState(){
  }
 }
 
+function signin() {
+  event.preventDefault();
+  $('#signinsection').slideToggle();
+  $('#signupsection').slideUp();
+}
+
+function signup() {
+  event.preventDefault();
+  $('#signupsection').slideToggle();
+  $('#signinsection').slideUp();
+}
+
+function newPost() {
+  $('#new-post').slideDown();
+  $('#edit-post').slideUp();
+}
+
 function loggedInState(){
  $("section, .logged-out").hide();
- $("#posts, #new-post, .logged-in").show();
+ $("#posts, .logged-in").show();
  return getPosts();
 }
 
@@ -124,16 +137,13 @@ var updateUser = function(){
     url: 'http://localhost:3000/profile/'+localStorage.getItem("userID"),
     data: user.user,
     beforeSend: setRequestHeader
-  }).done(function(user){
+  }).done(function(data){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     userDiv.empty();
     console.log(user);
-    userDiv.prepend(user.user.local.firstName + "'s CodeHunt <br>Last name: " + user.user.local.lastName + "<br>username: " + user.user.local.username + "<br>email: " + user.user.local.email + "<br>bio: " + user.user.bio + "<br>image: " + user.user.image + "<br><a data-id='"+ user.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+user.user._id+"'>Edit</a>"); 
+    userDiv.prepend("<div class='user-tile'><div class='row'><div class='col-md-12'><img src='" + data.user.image + "' height='200'>" + "<h2>" + data.user.local.firstName + " " + data.user.local.lastName + "</h2><h4>" + data.user.local.username  + "</h4><p>" + data.user.bio + "</p>" + "<a data-id='"+data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editUser' data-id='"+data.user._id+"'>Edit</a><br>" + "</div></div>"); 
   });
 }
-
-
-
 
 /////////////////////////////////////////////////////////
 
@@ -148,21 +158,9 @@ function displayUserPosts(data){
  hideErrors();
  hidePosts();
  return $.each(data.user.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a></div>");
-   // console.log(post);
+   $(".posts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br>" + "</div></div></div>");
  });
 }
-
-
-function displayPosts(data){
- hideErrors();
- hidePosts();
- return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='profile.html/" + post.user._id + "'>" + post.user.local.username + "</a></div>");
-   console.log(post);
- });
-}
-
 
 function submitForm(){
  event.preventDefault();
