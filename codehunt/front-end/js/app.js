@@ -42,6 +42,10 @@ function submitForm(){
  return ajaxRequest(method, url, data, authenticationSuccessful);
 }
 
+// like button
+
+
+
 // REMOVE item - post or user
 function removeItem(){
   event.preventDefault();
@@ -129,7 +133,7 @@ function displayPosts(data){
  hideErrors();
  hidePosts();
  return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><a href='/profile.html'>"+"<input name='like' id='like' value='Like' type='submit'/>" +"<br>"+ post.user.local.username + "</a></div>");
    console.log(post);
  });
 }
