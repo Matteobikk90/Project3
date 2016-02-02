@@ -24,8 +24,8 @@ function getName(){
 }
 
 function displayUserName(data){
-	console.log(data)
-	console.log(data.user.local.firstName)
+	// console.log(data)
+	// console.log(data.user.local.firstName)
    $("#newTitle").prepend(data.user.local.firstName + "'s CodeHunt <br>Last name: " + data.user.local.lastName + "<br>username: " + data.user.local.username + "<br>bio: " + data.user.local.username + "<br><a data-id='"+ data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+data.user._id+"'>Edit</a>"); 
  };
 
@@ -92,6 +92,7 @@ function editUser(){
     // $('form#edit-post').slideDown()
   });
   // Bind the clicked element to our updateUser function so that the updateUser function knows what "this" refers to when the updateUser function runs
+  console.log(this)
   $('.edit-user').on('submit', updateUser.bind(this));
 }
 
@@ -102,6 +103,7 @@ var updateUser = function(){
   var userDiv = $(this).parent()
   console.log(userDiv);
   var newUser = {
+  	//is this correct????
   	user:{
     local:{
       username: $("input#edit-username").val(),
