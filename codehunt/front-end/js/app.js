@@ -1,15 +1,16 @@
 
-
 $(init);
 
 
 function init(){
   console.log('hello')
  $("form").on("submit", submitForm);
- $(".logout-link").on("click", logout);
- $(".login-link, .register-link, .users-link").on("click", showPage);
+ $(".logout-link").on("click", logout); 
+ $(".login-link").on("click", signin);
+ $(".register-link").on("click", signup);
  $("body").on("click", ".delete", removeItem);
  $('body').on('click', '.edit', editPost);
+ $('#user-form-button').on('click', newPost);
  hideErrors();
  checkLoginState();  
 }
@@ -22,12 +23,21 @@ function checkLoginState(){
  }
 }
 
-function showPage() {
- event.preventDefault();
- var linkClass = $(this).attr("class").split("-")[0]
- // $("section").hide();
- hideErrors();
- return $("#" + linkClass).show();
+function signin() {
+  event.preventDefault();
+  $('#signinsection').slideToggle();
+  $('#signupsection').slideUp();
+}
+
+function signup() {
+  event.preventDefault();
+  $('#signupsection').slideToggle();
+  $('#signinsection').slideUp();
+}
+
+function newPost() {
+  $('#new-post').slideToggle();
+  $('#edit-post').slideUp();
 }
 
 function submitForm(){
@@ -36,12 +46,7 @@ function submitForm(){
  var method = $(this).attr("method");
  var url    = "http://localhost:3000" + $(this).attr("action");
  var data   = $(this).serialize();
-
- console.log(method);
- console.log(url);
- console.log(data);
  
-
  return ajaxRequest(method, url, data, authenticationSuccessful);
 }
 
@@ -56,11 +61,8 @@ function removeItem(){
   }).done(function() {
     itemToRemove.remove();
   });
-  // 
 }
 
-
-///////////////////////////////////////////////////////////////
 // EDIT post
 function editPost(){
   $.ajax({
@@ -72,8 +74,8 @@ function editPost(){
     $("input#edit-title").val(post.post.title),
     $("input#edit-description").val(post.post.description),
     $("input#edit-url").val(post.post.url),
-    $('#edit-post').slideDown()
-    // $('form#edit-post').slideDown()
+    $('#edit-post').slideDown(),
+    $('#new-post').slideUp()
   });
   // Bind the clicked element to our updateUser function so that the updateUser function knows what "this" refers to when the updateUser function runs
   $('.edit-post').on('submit', updatePost.bind(this));
@@ -81,10 +83,8 @@ function editPost(){
 
 var updatePost = function(){
   event.preventDefault();
-  console.log(this)
   // Get the parent element of the clicked edit anchor tag
   var postDiv = $(this).parent()
-  console.log(postDiv);
   var post = {
     post:{
       title: $("input#edit-title").val(),
@@ -92,8 +92,6 @@ var updatePost = function(){
       url: $("input#edit-url").val()
     }
   };
-  console.log(post.post)
-  console.log(this)
   $.ajax({
     type: 'patch',
     url: 'http://localhost:3000/'+$(this).data().id,
@@ -102,17 +100,15 @@ var updatePost = function(){
   }).done(function(post){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     postDiv.empty();
-    postDiv.prepend("<div class='post-tile'><h2>" + post.post.title + "</h2><p> " + post.post.description + "</p>"+ post.post.url + "| <br><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post.post._id+"'>Edit</a><br><a href='" + post.post.user.local._id + "'>" + post.post.user.username + "</a></div>").slideUp()
+    postDiv.prepend("<h2><a href='" + post.post.url + "'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "<p>" + post.post.category + "</p>" + "<p>" + post.post.language + "</p>" + "<br><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post.post._id+"'>Edit</a><br><a href='/profile.html'>" + post.post.user.local.username + "</a>");
+    $('#edit-post').slideUp();
   });
 }
 
-//////////////////////////////
 function posts(){
  event.preventDefault();
  return getPosts();
 }
-
-
 
 function logout(){
  event.preventDefault();
@@ -120,10 +116,10 @@ function logout(){
  return loggedOutState();
 }
 
-
 function getPosts(){
  return ajaxRequest("get", "http://localhost:3000", null, displayPosts)
 }
+
 
 
 function displayPosts(data){
@@ -131,9 +127,8 @@ function displayPosts(data){
  hidePosts();
  console.log(data)
  return $.each(data.posts, function(index, post) {
-   $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='profile.html'>" + post.user.local.username + "</a></div>");
-   // console.log(post);
-   // $(".posts").prepend("<div class='post-tile'><h2>" + post.title + "</h2><p> " + post.description + "</p>"+ post.url + "| <br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='profile.html/" + post.user._id + "'>" + post.user.local.username + "</a></div>");
+   $(".posts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+   console.log(post);
  });
 }
 
@@ -153,15 +148,17 @@ function displayErrors(data){
 
 function loggedInState(){
  $("section, .logged-out").hide();
- $("#posts, #new-post, #edit-user, .logged-in").show();
+ $("#posts, #user-form-button, #new-post, .logged-in").show();
+ $('#new-post').hide();
  return getPosts();
 }
 
 function loggedOutState(){
   console.log('loggedOutState')
  $("section, .logged-in").hide();
- $("#signup, #signin, .logged-out").show();
- return hidePosts();
+ $("#posts, #signup, #signin, .logged-out").show();
+ $('#new-post, #user-form-button').hide();
+ return getPosts();
 }
 
 function authenticationSuccessful(data) {
@@ -200,9 +197,6 @@ function ajaxRequest(method, url, data, callback) {
    displayErrors(data.responseJSON.message);
  });
 }
-
-
-
 
 /*$(init);
 
