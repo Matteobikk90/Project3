@@ -70,9 +70,10 @@ function usersUpdate(req, res) {
     if (req.body.image) user.image = req.body.image;
     if (req.body.bio) user.bio = req.body.bio;
 
-    user.save(function(err) {
+    user.save(function(err, updatedUser) {
       if (err) return res.status(500).json({message: "Error"});
-      res.status(201).json({message: "User updated", user: user});
+      res.status(201).json({message: "User updated", user: updatedUser});
+    
     });
   });
 }

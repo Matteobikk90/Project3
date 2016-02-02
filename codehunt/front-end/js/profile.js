@@ -26,7 +26,7 @@ function getName(){
 function displayUserName(data){
 	// console.log(data)
 	// console.log(data.user.local.firstName)
-   $("#newTitle").prepend(data.user.local.firstName + "'s CodeHunt <br>Last name: " + data.user.local.lastName + "<br>username: " + data.user.local.username + "<br>bio: " + data.user.local.username + "<br><a data-id='"+ data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+data.user._id+"'>Edit</a>"); 
+   $("#newTitle").prepend(data.user.local.firstName + "'s CodeHunt <br>Last name: " + data.user.local.lastName + "<br>username: " + data.user.local.username + "<br>email: " + data.user.local.email + "<br>bio: " + data.user.bio + "<br>image: " + data.user.image + "<br><a data-id='"+ data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+data.user._id+"'>Edit</a>"); 
  };
 
 
@@ -86,8 +86,8 @@ function editUser(){
     $("input#edit-lastName").val(user.user.local.lastName),
     $("input#edit-email").val(user.user.local.email),
     $("input#edit-password").val(user.user.local.password),
-    $("input#edit-image").val(user.user.local.image),
-    $("input#edit-bio").val(user.user.local.bio),
+    $("input#edit-image").val(user.user.image),
+    $("input#edit-bio").val(user.user.bio),
     $('#edit-user').slideDown()
     // $('form#edit-post').slideDown()
   });
@@ -102,7 +102,7 @@ var updateUser = function(){
   // Get the parent element of the clicked edit anchor tag
   var userDiv = $(this).parent()
   console.log(userDiv);
-  var newUser = {
+  var user = {
   	//is this correct????
   	user:{
     local:{
@@ -110,26 +110,30 @@ var updateUser = function(){
       firstName: $("input#edit-firstName").val(),
       lastName: $("input#edit-lastName").val(),
       email: $("input#edit-email").val(),
-      password: $("input#edit-password").val(),
+      password: $("input#edit-password").val()
+      },
       image: $("input#edit-image").val(),
-      bio: $("input#edit-bio").val(),
-    }
+      bio: $("input#edit-bio").val()
+    
 	}
   };
-  console.log(newUser)
+  console.log(user)
   // console.log(this)
   $.ajax({
     type: 'patch',
     url: 'http://localhost:3000/profile/'+localStorage.getItem("userID"),
-    data: newUser,
+    data: user.user,
     beforeSend: setRequestHeader
-  }).done(function(updatedUser){
+  }).done(function(user){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     userDiv.empty();
-    console.log(updatedUser);
-    userDiv.prepend(user.user.local.firstName + "'s CodeHunt <br>Last name: " + user.user.local.lastName + "<br>username: " + user.user.local.username + "<br>bio: " + user.user.local.username + "<br><a data-id='"+ user.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+user.user._id+"'>Edit</a>"); 
+    console.log(user);
+    userDiv.prepend(user.user.local.firstName + "'s CodeHunt <br>Last name: " + user.user.local.lastName + "<br>username: " + user.user.local.username + "<br>email: " + user.user.local.email + "<br>bio: " + user.user.bio + "<br>image: " + user.user.image + "<br><a data-id='"+ user.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+user.user._id+"'>Edit</a>"); 
   });
 }
+
+
+
 
 /////////////////////////////////////////////////////////
 
