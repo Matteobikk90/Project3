@@ -41,6 +41,7 @@ function newPost() {
 
 function submitForm(){
  event.preventDefault();
+ $("form").trigger("reset");
 
  var method = $(this).attr("method");
  var url    = "http://localhost:3000" + $(this).attr("action");

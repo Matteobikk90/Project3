@@ -88,6 +88,10 @@ function removeItem(){
 ///////////////////////////////////////////////////////////////
 // EDIT post
 function editUser(){
+
+  $("section, #profileDiv").hide();
+  $('#edit-user').fadeToggle();
+
   $.ajax({
     type: 'get',
     url: 'http://localhost:3000/profile/' + localStorage.getItem("userID"),
@@ -105,7 +109,6 @@ function editUser(){
     // $('form#edit-post').slideDown()
   });
   // Bind the clicked element to our updateUser function so that the updateUser function knows what "this" refers to when the updateUser function runs
-  console.log(this)
   $('.edit-user').on('submit', updateUser.bind(this));
 }
 
@@ -130,8 +133,6 @@ var updateUser = function(){
     
 	}
   };
-  console.log(user)
-  // console.log(this)
   $.ajax({
     type: 'patch',
     url: 'http://localhost:3000/profile/'+localStorage.getItem("userID"),
@@ -142,6 +143,8 @@ var updateUser = function(){
     userDiv.empty();
     console.log(user);
     userDiv.prepend("<div class='user-tile'><div class='row'><div class='col-md-12'><img src='" + data.user.image + "' height='200'>" + "<h2>" + data.user.local.firstName + " " + data.user.local.lastName + "</h2><h4>" + data.user.local.username  + "</h4><p>" + data.user.bio + "</p>" + "<a data-id='"+data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editUser' data-id='"+data.user._id+"'>Edit</a><br>" + "</div></div>"); 
+    $("#profileDiv").show();
+    $('#edit-user').fadeOut();
   });
 }
 
@@ -152,7 +155,6 @@ function getPosts(){
 	// console.log(url)
  return ajaxRequest("get", url, null, displayUserPosts)
 }
-
 
 function displayUserPosts(data){
  hideErrors();
