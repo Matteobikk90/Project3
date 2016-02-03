@@ -149,11 +149,13 @@ function displayPosts(data){
    
    var i = (d-c)/24/60/60/1000
 
-   var prefix = 'http://';
+
+ // URL FUNCTION
+ /*  var prefix = 'http://';
       if (s.substr(0, prefix.length) !== prefix)
    {
     s = prefix + s;
-   }
+   }*/
    var uri = ". Check this out: " + post.title + ". url:" + post.url
    var text = encodeURI(uri)
    

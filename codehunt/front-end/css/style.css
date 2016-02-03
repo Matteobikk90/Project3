@@ -200,3 +200,26 @@ section h2 {
 #edit-user {
   text-align: center;
 }
+
+.header-videoContainer {
+   width: 100%;
+   height: 500px;
+   position: relative;
+
+}
+
+.video-container {
+  position: absolute;
+  height: 500px%;
+  width: 100%;
+  overflow: hidden;
+
+}
+
+video {
+  position: relative;
+  z-index: -1;
+  opacity: 0.78;
+  width: 100%;
+
+}
