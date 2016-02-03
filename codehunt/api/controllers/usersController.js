@@ -92,18 +92,6 @@ function usersDelete(req, res) {
   });
 }
 
-
-//delete user
-/* function usersDelete(req, res) {
-  User.findByIdAndRemove({_id: global.currentUser.$__.scope._id}, function(err) {
-
-    
-
-    if (err) return res.status(404).json({message: "Error - User not deleted."});
-    res.status(200).json({message: 'User deleted'});
-  });
-}*/
-
 //exports
 module.exports = {
   usersShow: usersShow,

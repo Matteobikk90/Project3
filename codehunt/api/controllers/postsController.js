@@ -127,6 +127,22 @@ function dislikePost(req, res) {
  	   }});
 }
 
+//show posts for one category
+function categoryShow(req, res) {
+	Post.find({category: req.params.category}).populate('user').exec(function(err, posts) {
+		if (err) return res.status(400).json({message: "Error"});
+		res.status(200).json({posts: posts});
+	});
+}
+
+//show posts for one language
+function languageShow(req, res) {
+	Post.find({language: req.params.language}).populate('user').exec(function(err, posts) {
+		if (err) return res.status(400).json({message: "Error"});
+		res.status(200).json({posts: posts});
+	});
+}
+
 //exports
 module.exports = {
 	postsIndex: postsIndex,
@@ -135,5 +151,7 @@ module.exports = {
 	deletePost: deletePost,
 	showPost: showPost,
 	likePost: likePost,
-	dislikePost: dislikePost
+	dislikePost: dislikePost,
+	categoryShow: categoryShow,
+	languageShow: languageShow
 }

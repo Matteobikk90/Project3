@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CodeHunt</title>
+  <link rel="stylesheet" type="text/css" href="./css/reset.css">
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="//platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="/js/category.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+</head>
+<body>
+  <header>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img id="navImage" alt="Logo" src="/images/logo.png" height="35">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a class="register-link logged-out" href="/">Sign Up</a></li>
+          <li><a class="login-link logged-out" href="/">Login</a></li>
+          <li><a id="user-form-button" href="#" style="font-size: 25px">+</a></li>
+          <li class="dropdown profileDropDown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/profile.html">Profile</a></li>
+              <li><a class="logout-link logged-in" href="/">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+<main>
+
+<div class="container">
+
+  <br><div class="hide alert alert-danger" role="alert"></div><br>
+
+  <div id="categoryLanguageDiv">
+    <br>
+      <div id="catgoryLanguageTitle"></div>
+      <br>
+  </div>
+
+  <section id="new-post"> 
+    <h2>Add New Post</h2>
+      <form class="new-post form-inline" method="post" action="/">
+        <input type="text" name='title' class="form-control" id="title" placeholder="Title">
+        <input type="text" name='description' class="form-control" id="description" placeholder="Description">
+        <input type="text" name='url' class="form-control" id="url" placeholder="URL">
+        <select class="form-control" name="category" id="category">
+          <option value="" disabled selected>Select Category</option>
+          <option value="Article">Article</option>
+          <option value="Event">Event</option>
+          <option value="Product">Product</option>
+          <option value="Tutorial">Tutorial</option>
+          <option value="Other">Other</option>
+        </select>
+        <select class="form-control" name="language" id="language">
+        <option value="" disabled selected>Select Language</option>
+          <option value="HTML">HTML</option>
+          <option value="CSS">CSS</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="Objective-C">Objective-C</option>
+          <option value="Swift">Swift</option>
+          <option value="Ruby">Ruby</option>
+          <option value="Java">Java</option>
+          <option value="Python">Python</option>
+          <option value="PHP">PHP</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="submit" value='Add Post' id="submit" class="btn btn-default">
+        <input type="submit" value='Cancel' id="cancel" class="btn btn-default">    
+        </form>
+    </section>
+
+    <section id="edit-post">
+    <h2>Edit Post</h2>
+      <form class="edit-post form-inline" method="patch" action="/" >
+        <input type="text" name='title' id="edit-title" class="form-control" placeholder="Title">
+        <input type="text" name='description' id="edit-description" class="form-control" placeholder="Description">
+        <input type="text" name='url' id="edit-url" class="form-control" placeholder="URL">
+        <select class="form-control" name="category" id="edit-category">
+          <option value="Category" disabled selected>Select Category</option>
+          <option value="Article">Article</option>
+          <option value="Event">Event</option>
+          <option value="Product">Product</option>
+          <option value="Tutorial">Tutorial</option>
+          <option value="Other">Other</option>
+        </select>
+        <select class="form-control" name="language" id="edit-language">
+          <option value="Language" disabled selected>Select Language</option>
+          <option value="HTML">HTML</option>
+          <option value="CSS">CSS</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="Objective-C">Objective-C</option>
+          <option value="Swift">Swift</option>
+          <option value="Ruby">Ruby</option>
+          <option value="Java">Java</option>
+          <option value="Python">Python</option>
+          <option value="PHP">PHP</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="submit" value='Edit Post' id="submit" class="btn btn-default">
+        <input type="submit" value='Cancel' id="cancel" class="btn btn-default">
+      </form>
+    </section>  
+
+  <section id="signupsection">
+  <h2>Sign Up</h2>
+    <form class="signup form-inline" id="signup" method="post" action="/signup">
+      <input type="text" name='username' id="username" class="form-control" placeholder="Username">
+      <input type="text" name='firstName' id="firstName" class="form-control" placeholder="First Name">
+      <input type="text" name='lastName' id="lastName" class="form-control" placeholder="Last Name">
+      <input type="email" name='email' id="email" class="form-control" placeholder="Email">
+      <input type="password" name='password' id="password" class="form-control" placeholder="Password">      
+      <input type="submit" value='Sign Up' id="submit" class="btn btn-default">
+      </form>
+  </section>  
+    
+  <section id="signinsection">
+  <h2>Sign In</h2>
+    <form class="signin form-inline" id="signin" method="post" action="/signin">
+      <input type="email" name='email' id="email" class="form-control" placeholder="Email">
+      <input type="password" name='password' id="password" class="form-control" placeholder="Password">
+      <input type="submit" value='Sign In' id="submit" class="btn btn-default">
+      </form>
+  </section>  
+
+  <!-- This div needs to be dynamic to show the week -->
+  <section id="posts">
+    <!-- <i style="font-weight: bold"> POSTS</i> -->
+    <p id="timeTitle">This Week</p>
+    <div class="weekposts"></div>
+    <p id="timeTitle">Last Month</p>
+    <div class="monthposts"></div>
+    <p id="timeTitle">Earlier</p>
+    <div class="earlierposts"></div>
+  </section>
+
+  <div class="footer">
+    <a href="http://twitter.com/intent/user?screen_name=followvm">Follow CodeHunt on Twitter</a>
+  </div>
+
+</div>
+  </main>
+</body>
+</html>

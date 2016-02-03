@@ -25,6 +25,12 @@ router.route('/profile/:userid')
 	.patch(usersController.usersUpdate)
 	.delete(usersController.usersDelete);
 
+router.route('/category/:category')
+	.get(postsController.categoryShow);
+
+router.route('/language/:language')
+	.get(postsController.languageShow);
+
 router.route('/:postid/like')
 	.get(postsController.likePost);
 

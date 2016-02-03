@@ -63,7 +63,7 @@ a:hover {
 }
 
 h2 a {
-  font-size: 24px !important;
+  font-size: 22px !important;
   text-decoration: none;
 }
 
@@ -139,7 +139,7 @@ background-color: #fff;
 }
 
 .user-tile h2 {
-  font-size: 24px;
+  font-size: 22px;
   text-decoration: none;
 }
 
@@ -160,10 +160,18 @@ background-color: #fff;
 
 .post-tile h5 {
   text-decoration: underline;
-  color: #da552f;
+  color: #da552f !important;
   display: inline-block;
-  padding-right: 5px;
-  font-size: 14px;
+  padding-right: 2px;
+  font-size: 12px;
+}
+ 
+.post-tile h5 a {
+  text-decoration: underline;
+  color: #da552f !important;
+  display: inline-block;
+  padding-right: 2px;
+  font-size: 12px;
 }
 
 .post-tile img {
@@ -210,4 +218,20 @@ section h2 {
 
 .footer a {
   color: #909090 !important;
+}
+
+#catgoryLanguageTitle {
+
+}
+
+#categoryLanguageDiv {
+  margin-top: -50px;
+  margin-bottom: 40px;
+  height: 20px;
+}
+
+#categoryLanguageDiv h2 {
+  font-size: 16px;
+  font-weight: bold;
+
 }
