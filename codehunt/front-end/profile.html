@@ -55,8 +55,8 @@
   <section id="new-post"> 
   <h2>Add New Post</h2>
     <form class="new-post form-inline" method="post" action="/">
-      <input type="text" name='title' class="form-control" id="title" placeholder="Title">
-      <input type="text" name='description' class="form-control" id="description" placeholder="Description">
+      <input type="text" name='title' class="form-control" id="title" maxlength="10" placeholder="Title">
+      <input type="text" name='description' class="form-control" id="description" maxlength="10" placeholder="Description">
       <input type="text" name='url' class="form-control" id="url" placeholder="URL">
       <select class="form-control" name="category" id="category">
         <option value="Category" disabled selected>Select Category</option>
@@ -86,8 +86,8 @@
   <section id="edit-post">
   <h2>Edit Post</h2>
     <form class="edit-post form-inline" method="patch" action="/" >
-      <input type="text" name='title' id="edit-title" class="form-control" placeholder="Title">
-      <input type="text" name='description' id="edit-description" class="form-control" placeholder="Description">
+      <input type="text" name='title' id="edit-title" class="form-control" maxlength="10" placeholder="Title">
+      <input type="text" name='description' id="edit-description" maxlength="10" class="form-control" placeholder="Description">
       <input type="text" name='url' id="edit-url" class="form-control" placeholder="URL">
       <select class="form-control" name="category" id="edit-category">
         <option value="Category" disabled selected>Select Category</option>
@@ -117,7 +117,7 @@
   <section id="signupsection">
   <h2>Sign Up</h2>
     <form class="signup form-inline" id="signup" method="post" action="/signup">
-      <input type="text" name='username' id="username" class="form-control" placeholder="Username">
+      <input type="text" name='username' id="username" class="form-control" maxlength="10" placeholder="Username">
       <input type="text" name='firstName' id="firstName" class="form-control" placeholder="First Name">
       <input type="text" name='lastName' id="lastName" class="form-control" placeholder="Last Name">
       <input type="email" name='email' id="email" class="form-control" placeholder="Email">
@@ -140,7 +140,7 @@
     <form class="edit-user form-inline" method="patch" action="/profile">
       <div class="form-group">
         <label for="username">Username: </label>
-        <input type="text" name='username' id="edit-username" class="form-control" placeholder="Username">
+        <input type="text" name='username' id="edit-username" class="form-control" maxlength="10" placeholder="Username">
       </div><br><br>
       <div class="form-group">
         <label for="firstName">First Name: </label>
@@ -161,7 +161,7 @@
       </div><br><br>
       <div class="form-group">
         <label for="bio">Biography: </label>
-        <input type="text" name='bio' id="edit-bio" class="form-control" placeholder="Biography">
+        <input type="text" name='bio' id="edit-bio" class="form-control" maxlength="10" placeholder="Biography">
       </div><br><br>
       <input type="submit" value='Edit User' id="submit" class="btn btn-default">
     </form>
