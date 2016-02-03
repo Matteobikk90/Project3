@@ -38,9 +38,12 @@ p {
   color: #5a5a5a;
 }
 
-#posts i {
+#timeTitle {
   font-weight: bold;
   color: #5a5a5a;
+  margin-top: 20px;
+  margin-left: 25px;
+  margin-bottom: 10px;
 }
 
 a {

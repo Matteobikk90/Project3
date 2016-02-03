@@ -144,20 +144,11 @@ function displayPosts(data){
 
   console.log(post);
 
-   // $(".posts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
-   // console.log(post);
-   // console.log(post.created_at);
    var n=Date.now();
    var d=new Date(Date.now())
    var c=new Date(post.created_at)
-   // console.log(d)
-   // console.log(c)
-
-   /////////////////////////////////////////////////
-   // TAKE OFF THE *10 FOR THE DATE TO BE CORRECT //
-   /////////////////////////////////////////////////
    
-   var i = (d-c)/24/60/60/1000*10
+   var i = (d-c)/24/60/60/1000
 
    console.log(i)
 
@@ -174,9 +165,8 @@ function displayPosts(data){
 
    } else {
     $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");}
- });
-}
-
+ })
+};
 
 function likePost() {
   var id = $(this).data().id;
