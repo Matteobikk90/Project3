@@ -116,19 +116,21 @@ function dislikePost(req, res) {
  	  var postId = req.params.postid
  	   var userId = global.currentUser.$__.scope._id
 
- 	   console.log('dislike function')
 
- 	Post.update({ _id: postId },
- 	    { $unset: {userLikes: userId} }, function(err) {
- 	         if(err){
- 	           res.status(400).send("Error");
- 	         } else {
- 	         	Post.findById({_id: postId}, function(err, updatedPost) {
- 	         		if (err) return res.status(400).json({message: "Error"});
- 	         		res.status(200).json({post: updatedPost});
- 	         	});
- 	        }
- 	});
+
+ 	   Post.update({ _id: postId },
+
+ 	       { $unset: {userLikes: userId} }, function(err) {
+ 	            if(err){
+ 	              res.status(400).send("Error");
+ 	            } else {
+ 	            	Post.findById({_id: postId}, function(err, updatedPost) {
+ 	            		if (err) return res.status(400).json({message: "Error"});
+ 	            		res.status(200).json({post: updatedPost});
+ 	            	});
+ 	           }
+ 	   });
+
 }
 
 //exports
