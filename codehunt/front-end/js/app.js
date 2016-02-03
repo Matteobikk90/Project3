@@ -11,8 +11,15 @@ function init(){
  $('#user-form-button').on('click', newPost);
  $("body").on("click", ".likePost", likePost);
  $("body").on("click", ".dislikePost", dislikePost);
+ $('body').on('cancel', hideForm());
+
  hideErrors();
  checkLoginState();
+}
+
+function hideForm() {
+  $("section").hide();
+  $("#posts").show();
 }
 
 function checkLoginState(){
@@ -38,6 +45,7 @@ function signup() {
 }
 
 function newPost() {
+  clearForms();
   $('#new-post').slideToggle();
   $('#edit-post').slideUp();
 }
@@ -62,10 +70,8 @@ function removeItem(){
     beforeSend: setRequestHeader
   }).done(function() {
     itemToRemove.remove();
-    
   });
 }
-
 
 // SET userID in local storage to be the id of the user whose profile you want to see
 function setProfile(post){
@@ -81,7 +87,6 @@ function editPost(){
     url: 'http://localhost:3000/'+$(this).data().id,
     beforeSend: setRequestHeader
   }).done(function(post){
-    console.log(post)
     $("#edit-title").val(post.post.title),
     $("#edit-description").val(post.post.description),
     $("#edit-url").val(post.post.url),
@@ -90,13 +95,11 @@ function editPost(){
     $('#edit-post').slideDown(),
     $('#new-post').slideUp()
   });
-  // Bind the clicked element to our updateUser function so that the updateUser function knows what "this" refers to when the updateUser function runs
   $('.edit-post').on('submit', updatePost.bind(this));
 }
 
 var updatePost = function(){
   event.preventDefault();
-  // Get the parent element of the clicked edit anchor tag
   var postDiv = $(this).parent().parent()
   var post = {
     post:{
@@ -113,7 +116,6 @@ var updatePost = function(){
     data: post.post,
     beforeSend: setRequestHeader
   }).done(function(post){
-    // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     postDiv.empty();
     postDiv.prepend("<div class='col-md-10 mainPostDiv'><h5>" + post.post.category + "</h5><h5>" + post.post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.post.url) + "'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br>" + "<a href='/profile.html'>" + post.post.user.local.username + "</a>" + "</div>");
     $('#edit-post').slideUp();
@@ -191,6 +193,10 @@ function dislikePost() {
  });
 }
 
+function clearForms() {
+  $('form').trigger('reset');
+}
+
 function hidePosts(){
  return $(".posts").empty();
 }
@@ -224,7 +230,6 @@ function authenticationSuccessful(data) {
 }
 
 function setToken(data) {
-  // debugger;
   localStorage.setItem("userID", data.user._id )
   localStorage.setItem("token", data.token)
 }
@@ -254,4 +259,3 @@ function ajaxRequest(method, url, data, callback) {
    displayErrors(data.responseJSON.message);
  });
 }
-

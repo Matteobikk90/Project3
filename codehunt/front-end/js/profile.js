@@ -7,31 +7,28 @@ function init(){
  $(".register-link").on("click", signup);
  $("body").on("click", ".delete", removeItem);
  $('body').on('click', '.editUser', editUser);
-
+ $('.edit-user').on('cancel', hideForm());
  // $('body').on('click', '.editPost', editPost);
  // $('#user-form-button').on('click', newPost);
  $("body").on("click", ".likePost", likePost);
  $("body").on("click", ".dislikePost", dislikePost);
-
-
  getName();
  hideErrors();
  checkLoginState(); 
+}
 
+function hideForm() {
+  $("section").hide();
+  $("#posts").show();
 }
 
 function getName(){
 	var url = "http://localhost:3000/profile/" + localStorage.getItem("userID")
-	console.log(url)
  return ajaxRequest("get", url, null, displayUser)
 }
 
 function displayUser(data){
-	console.log(data)
-	console.log(data.user.local.firstName)
-  
-
-   $("#newTitle").prepend("<div class='user-tile'><div class='row'><div class='col-md-12'><img src='" + data.user.image + "' height='200'>" + "<h2>" + data.user.local.firstName + " " + data.user.local.lastName + "</h2><h4>" + data.user.local.username  + "</h4><p>" + data.user.bio + "</p>" + "<a data-id='"+data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editUser' data-id='"+data.user._id+"'>Edit</a><br>" + "</div></div>"); 
+  $("#newTitle").prepend("<div class='user-tile'><div class='row'><div class='col-md-12'><img src='" + data.user.image + "' height='200'>" + "<h2>" + data.user.local.firstName + " " + data.user.local.lastName + "</h2><h4>" + data.user.local.username  + "</h4><p>" + data.user.bio + "</p>" + "<a data-id='"+data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editUser' data-id='"+data.user._id+"'>Edit</a><br>" + "</div></div>"); 
  };
 
 function checkLoginState(){
@@ -59,8 +56,6 @@ function newPost() {
   $('#edit-post').slideUp();
 }
 
-
-
 function submitForm(){
  event.preventDefault();
 
@@ -86,19 +81,8 @@ function removeItem(){
   }).done(function() {
     itemToRemove.remove();
   });
-  // 
 }
 
-
-
-// NO SET PROFILE FUNCTION
-// NO SET PROFILE FUNCTION
-
-
-
-
-
-///////////////////////////////////////////////////////////////
 // EDIT user
 function editUser(){
 
@@ -163,15 +147,11 @@ var updateUser = function(){
 
 /////////////////////////////////////////////////////////
 
-
-
 function loggedInState(){
  $("section, .logged-out").hide();
  $("#posts, .logged-in").show();
  return getPosts();
 }
-
-
 
 function loggedOutState(){
  $("section, .logged-in").hide();
@@ -179,22 +159,17 @@ function loggedOutState(){
  return hidePosts();
 }
 
-
 function logout(){
  event.preventDefault();
  removeToken();
  return loggedOutState();
 }
 
-
-
-
 function getPosts(){
 	var url = "http://localhost:3000/profile/" + localStorage.getItem("userID")
 	// console.log(url)
  return ajaxRequest("get", url, null, displayUserPosts)
 }
-
 
 function displayUserPosts(data){
   console.log(data)
@@ -229,7 +204,6 @@ function displayUserPosts(data){
  });
 }
 
-
 function likePost() {
   var id = $(this).data().id;
  $.ajax({
@@ -259,8 +233,6 @@ function dislikePost() {
  });
 }
 
-
-
 function hidePosts(){
  return $(".posts").empty();
 }
@@ -269,13 +241,10 @@ function hideErrors(){
  return $(".alert").removeClass("show").addClass("hide");
 }
 
-
-
 function authenticationSuccessful(data) {
  if (data.token) setToken(data);
  return checkLoginState();
 }
-
 
 function setToken(data) {
   debugger;
@@ -287,7 +256,6 @@ function getToken() {
  return localStorage.getItem("token");
 }
 
-
 function removeToken() {
  return localStorage.clear();
 }
@@ -297,7 +265,6 @@ function setRequestHeader(xhr, settings) {
  // console.log(token)
  if (token) return xhr.setRequestHeader('Authorization','Bearer ' + token);
 }
-
 
 function ajaxRequest(method, url, data, callback) {
  return $.ajax({
@@ -312,4 +279,3 @@ function ajaxRequest(method, url, data, callback) {
    displayErrors(data.responseJSON.message);
  });
 }
-

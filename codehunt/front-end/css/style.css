@@ -200,3 +200,14 @@ section h2 {
 #edit-user {
   text-align: center;
 }
+
+.footer {
+  text-align: right;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+}
+
+.footer a {
+  color: #909090 !important;
+}

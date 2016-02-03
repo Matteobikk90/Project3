@@ -25,8 +25,6 @@
     <ul class="nav navbar-nav navbar-right">
       <li><a class="register-link logged-out" href="/">Sign Up</a></li>
       <li><a class="login-link logged-out" href="/">Login</a></li>
-      <li><a href="http://twitter.com/intent/user?screen_name=followvm">Follow CodeHunt on Twitter</a></li>
-
 <!-- REMOVED ADD USER FROM PROFILE PAGE      <li><a id="user-form-button" href="#" style="font-size: 25px">+</a></li> -->
       <li class="dropdown profileDropDown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
@@ -80,7 +78,7 @@
         <option value="Other">Other</option>
       </select>
       <input type="submit" value='Add Post' id="submit" class="btn btn-default">
-    </form>
+      <input type="submit" value='Cancel' id="cancel" class="btn btn-default">    </form>
   </section>
 
   <section id="edit-post">
@@ -111,7 +109,7 @@
         <option value="Other">Other</option>
       </select>
       <input type="submit" value='Edit Post' id="submit" class="btn btn-default">
-    </form>
+      <input type="submit" value='Cancel' id="cancel" class="btn btn-default">    </form>
   </section>   
 
   <section id="signupsection">
@@ -123,7 +121,7 @@
       <input type="email" name='email' id="email" class="form-control" placeholder="Email">
       <input type="password" name='password' id="password" class="form-control" placeholder="Password">      
       <input type="submit" value='Sign Up' id="submit" class="btn btn-default">
-    </form>
+      <input type="submit" value='Cancel' id="cancel" class="btn btn-default">    </form>
   </section>  
     
   <section id="signinsection">
@@ -132,7 +130,7 @@
       <input type="email" name='email' id="email" class="form-control" placeholder="Email">
       <input type="password" name='password' id="password" class="form-control" placeholder="Password">
       <input type="submit" value='Sign In' id="submit" class="btn btn-default">
-    </form>
+      <input type="submit" value='Cancel' id="cancel" class="btn btn-default">    </form>
   </section>  
 
   <section id="edit-user">  
@@ -163,6 +161,7 @@
         <label for="bio">Biography: </label>
         <input type="text" name='bio' id="edit-bio" class="form-control" placeholder="Biography">
       </div><br><br>
+      <input type="submit" value='Cancel' id="cancel" class="btn btn-default">
       <input type="submit" value='Edit User' id="submit" class="btn btn-default">
     </form>
   </section>    
@@ -170,19 +169,17 @@
   <!-- This div needs to be dynamic to show the week -->
   <section id="posts">
     <!-- <i style="font-weight: bold"> POSTS</i> -->
-    <br>
-      <div class="posts"></div>
-    <br>
-    <i> This Week</i><br>  
-      <div class="weekposts"></div>
-    <br>  
-    <i> Last Month</i><br>    
-      <div class="monthposts"></div>
-    <br>
-    <i>Earlier</i><br>
-      <div class="earlierposts"></div>
-    <br>
+    <p id="timeTitle">This Week</p>
+    <div class="weekposts"></div>
+    <p id="timeTitle">Last Month</p>
+    <div class="monthposts"></div>
+    <p id="timeTitle">Earlier</p>
+    <div class="earlierposts"></div>
   </section>
+
+  <div class="footer">
+    <a href="http://twitter.com/intent/user?screen_name=followvm">Follow CodeHunt on Twitter</a>
+  </div>
 
 </div>
   </main>
