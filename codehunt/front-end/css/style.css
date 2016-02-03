@@ -3,29 +3,12 @@
 body {
   font-family: proxima-nova,Proxima Nova,helvetica,arial,sans-serif;
   background-color: white;
-}
-
-main {
-  width: 960px;
-  margin: 30px auto;
+  padding-top: 50px;
 }
 
 html {
   box-sizing: border-box;
 }
-
-
-/*PROFILE*/
-
-#profileDiv {
-  font-size: 36px;
-  font-family: proxima-nova,Proxima Nova,helvetica,arial,sans-serif;
-  padding: 5px 10px;
-  border: 1px solid black;
-  margin-right: 5px;
-}
-
-
 
 /*FORM*/
 
@@ -36,48 +19,41 @@ html {
   margin-bottom: 15px;
 }
 
-input[type=text] {
-  font-size: 16px;
-  font-family: proxima-nova,Proxima Nova,helvetica,arial,sans-serif;
-  padding: 5px 10px;
-  border: 1px solid black;
-  margin-right: 5px;
-}
-
 input[type=submit] {
-  font-weight: bold;
-  font-size: 16px;
-  font-family: proxima-nova,Proxima Nova,helvetica,arial,sans-serif;
-  padding: 5px;
-  width: 150px;
-  border: 1px solid black;
-  background-color: black;
+  background-color: #909090;
   color: white;
+  border: none;
 }
 
 input[type=submit]:hover {
-  background-color: white;
-  color: black;
-}
+  background-color: #da552f;
+  color: white;
+  border: none;
+} 
 
 /*TYPE*/
 
-h2 {
-  font-weight: bold;
-  font-weight: 26px;
-  line-height: 1.3;
-}
-
 p {
   line-height: 1.3;
+  color: #5a5a5a;
+}
+
+#posts i {
+  font-weight: bold;
+  color: #5a5a5a;
 }
 
 a {
-  color: black;
+  color: #404040 !important;
   line-height: 1.3;
 }
 
+a:hover {
+  color: #909090 !important;
+}
+
 h2 a {
+  font-size: 24px !important;
   text-decoration: none;
 }
 
@@ -91,92 +67,126 @@ a:hover {
 
 /*HEADER*/
 
-header {
-  width: 100%;
-  background: #FAFAFA;
-  border-bottom: 1px solid #EDEEEE;
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  color: #da552f; /*Sets the text hover color on navbar*/
 }
 
-header nav {
-  max-width: 960px;
-  margin: 0 auto;
-  height: 60px;
-  line-height: 60px;
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: #fff; /*BACKGROUND color for active*/
+background-color: #fff;
 }
 
-header nav ul {
-  height: 60px;
-  line-height: 60px;
-  font-size: 14px;
+  .navbar-default {
+    background-color: #fff;
+    border-color: #f1f1f1;
 }
 
-header nav ul li:first-child {
-  float: left;
-  padding: 0;
-  font-size: 25px;
+  .dropdown-menu > li > a:hover,
+   .dropdown-menu > li > a:focus {
+    color: #fff;
+   text-decoration: none;
+  background-color: #f8f8f8;  /*change color of links in drop down here*/
+   }
+
+ .nav > li > a:hover,
+ .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #fff; /*Change rollover cell color here*/
+  }
+
+
+  .navbar-default .navbar-nav > li > a {
+   color: #da552f; /*Change active text color here*/
+    }
+
+#user-form-button {
+  padding-right: 10px;
 }
 
-header nav ul li {
-  font-weight: bold;
-  display: inline;
-  height: 60px;
-  line-height: 60px;
-  float: right;
-  padding: 0 10px;
-}
-
-header nav ul li:nth-child(2) {
-  padding: 0 0 0 10px;
-}
-
-header nav ul li a:hover {
-  text-decoration: none;
-}
-
-header nav ul li a {
-  text-decoration: none;
-  color: black;
+#navImage {
+ padding-bottom: 10px; 
 }
 
 /*INDEX USERS*/
-
 #users {
   overflow: hidden;
 }
 
 .post-tile {
-  background-color: #FAFAFA;
+  background-color: #fff;
+  border: 2px solid #f7f7f7;
+  border-radius: 5px;
   width: 100%;
   float: left;
-  padding: 10px;
-  margin: 0 15px 15px 0;
+  padding: 15px 25px;
+  margin: 0 10px 10px 0;
+}
+
+/*PROFILE*/
+.user-tile {
+  text-align: center;
+}
+
+.user-tile h2 {
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.user-tile h4 {
+  color: #5a5a5a;
+  font-size: 16px;
+}
+
+.subPostDiv {
+  text-align: right;
+}
+
+.post-tile h2 {
+  margin-top: -5px;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
+
+.post-tile h5 {
+  text-decoration: underline;
+  color: #da552f;
+  display: inline-block;
+  padding-right: 5px;
+  font-size: 14px;
 }
 
 .post-tile img {
   width: 100%;
   margin-bottom: 10px;
 }
-/*
-.user-tile:nth-child(3n+3) {  
-  margin: 0 0 15px 0;
-}
-*/
-/*SHOW USER*/
 
-#show {
-  display: none;
-  width: 310px;
-  float: left;
+.post-tile:hover {
+  background-color: #f9f9f9;
 }
 
-#projects {
-  display: none;
-  overflow: hidden;
-  padding-left: 15px;
+#signinsection {
+  text-align: center;
 }
 
-.project-tile {
-  background-color: white;
-  padding: 10px;
-  margin-bottom: 15px;
+section h2 {
+  color: #404040;
+  font-size: 22px;
+  padding-bottom: 15px;
+}
+
+#signupsection {
+  text-align: center;
+}
+
+#new-post {
+  text-align: center;
+}
+
+#edit-post {
+  text-align: center;
+}
+
+#edit-user {
+  text-align: center;
 }
