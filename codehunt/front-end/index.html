@@ -45,8 +45,8 @@
   <section id="new-post"> 
   <h2>Add New Post</h2>
     <form class="new-post form-inline" method="post" action="/">
-      <input type="text" name='title' class="form-control" id="title" maxlength="10" placeholder="Title">
-      <input type="text" name='description' class="form-control" id="description" maxlength="10" placeholder="Description">
+      <input type="text" name='title' class="form-control" id="title" maxlength="10" placeholder="Title (Max Char:10)">
+      <input type="text" name='description' class="form-control" id="description" maxlength="11" placeholder="Description (Max Char:11)">
       <input type="text" name='url' class="form-control" id="url" placeholder="URL">
       <select class="form-control" name="category" id="category">
         <option value="Category" disabled selected>Select Category</option>
@@ -76,8 +76,8 @@
   <section id="edit-post">
   <h2>Edit Post</h2>
     <form class="edit-post form-inline" method="patch" action="/" >
-      <input type="text" name='title' id="edit-title" class="form-control" maxlength="10" placeholder="Title">
-      <input type="text" name='description' id="edit-description" class="form-control" maxlength="10"placeholder="Description">
+      <input type="text" name='title' id="edit-title" class="form-control" maxlength="10" placeholder="Title (Max Char:10)">
+      <input type="text" name='description' id="edit-description" class="form-control" maxlength="11" placeholder="Description (Max Char:11)">
       <input type="text" name='url' id="edit-url" class="form-control" placeholder="URL">
       <select class="form-control" name="category" id="edit-category">
         <option value="Category" disabled selected>Select Category</option>
@@ -107,7 +107,7 @@
   <section id="signupsection">
   <h2>Sign Up</h2>
     <form class="signup form-inline" id="signup" method="post" action="/signup">
-      <input type="text" name='username' id="username" class="form-control" maxlength="10" placeholder="Username">
+      <input type="text" name='username' id="username" class="form-control" maxlength="10" placeholder="Username (Max Char:10)">
       <input type="text" name='firstName' id="firstName" class="form-control" placeholder="First Name">
       <input type="text" name='lastName' id="lastName" class="form-control" placeholder="Last Name">
       <input type="email" name='email' id="email" class="form-control" placeholder="Email">
