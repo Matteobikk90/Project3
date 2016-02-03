@@ -62,6 +62,7 @@ function removeItem(){
     beforeSend: setRequestHeader
   }).done(function() {
     itemToRemove.remove();
+    
   });
 }
 
