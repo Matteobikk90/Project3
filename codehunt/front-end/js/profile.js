@@ -1,20 +1,74 @@
 $(init);
 
 function init(){
- $("form").on("submit", submitForm);
- $(".logout-link").on("click", logout); 
- $(".login-link").on("click", signin);
- $(".register-link").on("click", signup);
- $("body").on("click", ".delete", removeItem);
- $('body').on('click', '.editUser', editUser);
- $('.edit-user').on('cancel', hideForm());
- // $('body').on('click', '.editPost', editPost);
- // $('#user-form-button').on('click', newPost);
- $("body").on("click", ".likePost", likePost);
- $("body").on("click", ".dislikePost", dislikePost);
+  $(".new-post").on("submit", submitForm);
+  $(".edit-post").on("submit", submitForm);
+  $('.signup').on("submit", submitFormUser);
+  $('.signin').on("submit", submitFormUser);
+  $('.edit-user').on("submit", submitFormUser);
+   $(".logout-link").on("click", logout); 
+   $(".login-link").on("click", signin);
+   $(".register-link").on("click", signup);
+   $("body").on("click", ".delete", removeUser);
+   $('body').on('click', '.editUser', editUser);
+   $('.edit-user').on('cancel', hideForm());
+   $('body').on('click', '.editPost', editPost);
+   $("body").on("click", ".deletePost", removeItem);
+   $('#user-form-button').on('click', newPost);
+   $("body").on("click", ".likePost", likePost);
+   $("body").on("click", ".dislikePost", dislikePost);
  getName();
  hideErrors();
  checkLoginState(); 
+}
+
+function newPost() {
+  clearForms();
+  $('#new-post').slideToggle();
+  $('#edit-post').slideUp();
+}
+
+// EDIT post
+function editPost(){
+  $.ajax({
+    type: 'get',
+    url: 'http://localhost:3000/'+$(this).data().id,
+    beforeSend: setRequestHeader
+  }).done(function(post){
+    $("#edit-title").val(post.post.title),
+    $("#edit-description").val(post.post.description),
+    $("#edit-url").val(post.post.url),
+    $("#edit-category").val(post.post.category),
+    $("#edit-language").val(post.post.language),
+    $('#edit-post').slideDown(),
+    $('#new-post').slideUp()
+  });
+  $('.edit-post').on('submit', updatePost.bind(this));
+}
+
+var updatePost = function(){
+  event.preventDefault();
+  var postDiv = $(this).parent().parent();
+  console.log(postDiv)
+  var post = {
+    post:{
+      title: $("#edit-title").val(),
+      description: $("#edit-description").val(),
+      url: $("#edit-url").val(),
+      category: $("#edit-category").val(),
+      language: $("#edit-language").val()
+    }
+  };
+  $.ajax({
+    type: 'patch',
+    url: 'http://localhost:3000/'+$(this).data().id,
+    data: post.post,
+    beforeSend: setRequestHeader
+  }).done(function(post){
+    postDiv.empty();
+    postDiv.replaceWith("<div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.post.category + "</h5><h5>" + post.post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.post.url) + "' target='_blank'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post.post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post.post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post.post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post.post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<br><p id='" + post.post._id + "likeCount'>" +  post.post.userLikes.length +  "</p></div></div>");
+    $('#edit-post').slideUp();
+  });
 }
 
 function hideForm() {
@@ -56,22 +110,43 @@ function newPost() {
   $('#edit-post').slideUp();
 }
 
+//general
 function submitForm(){
+ event.preventDefault();
+ 
+ var method = $(this).attr("method");
+ var url    = "http://localhost:3000" + $(this).attr("action");
+ var data   = $(this).serialize();
+ 
+ return ajaxRequest(method, url, data, authenticationSuccessful);
+}
+
+//user
+function submitFormUser(){
  event.preventDefault();
 
  var method = $(this).attr("method");
  var url    = "http://localhost:3000/profile/" + localStorage.getItem("userID") ;
  var data   = $(this).serialize();
 
- console.log(method);
- console.log(url);
- console.log(data);
-
  return ajaxRequest(method, url, data, authenticationSuccessful);
 }
 
-// REMOVE item - post or user
+// REMOVE item - post
 function removeItem(){
+  event.preventDefault();
+  var itemToRemove = $(this).parent().parent().parent();
+  $.ajax({
+    url:'http://localhost:3000/'+$(this).data().id,
+    type:'delete',
+    beforeSend: setRequestHeader
+  }).done(function() {
+    itemToRemove.remove();
+  });
+}
+
+// REMOVE item - user
+function removeUser(){
   event.preventDefault();
   var itemToRemove = $(this).parent();
   $.ajax({
@@ -80,6 +155,9 @@ function removeItem(){
     beforeSend: setRequestHeader
   }).done(function() {
     itemToRemove.remove();
+    removeToken();
+    loggedOutState();
+    window.location.href = 'index.html';
   });
 }
 
@@ -138,7 +216,9 @@ var updateUser = function(){
   }).done(function(data){
     // Empty the specific user div and rewrite the html with the updated user that gets returned from our server
     userDiv.empty();
-    console.log(user);
+
+
+
     userDiv.prepend("<div class='user-tile'><div class='row'><div class='col-md-12'><img src='" + data.user.image + "' height='200'>" + "<h2>" + data.user.local.firstName + " " + data.user.local.lastName + "</h2><h4>" + data.user.local.username  + "</h4><p>" + data.user.bio + "</p>" + "<a data-id='"+data.user._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='editUser' data-id='"+data.user._id+"'>Edit</a><br>" + "</div></div>"); 
     $("#profileDiv").show();
     $('#edit-user').fadeOut();
@@ -172,8 +252,6 @@ function getPosts(){
 }
 
 function displayUserPosts(data){
-  console.log(data)
-  console.log('hello displayuserposts')
  hideErrors();
  hidePosts();
  return $.each(data.user.posts, function(index, post) {
@@ -190,19 +268,16 @@ function displayUserPosts(data){
    var text = encodeURI(uri)
    console.log(text)
 
-   if (i<7) {
-    $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><br><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
-
-    // PUT THE CORRENT HREF IN
-   } 
-   else if (i>28) {
-    $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><br><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
-
-   } else {
-    $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
-   } 
- });
-}
+     if (i<7) {
+      $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
+     } 
+     else if (i>28) {
+      $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br>" + "<br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
+     } else {
+      $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
+    }
+   })
+};
 
 function likePost() {
   var id = $(this).data().id;
@@ -275,7 +350,6 @@ function ajaxRequest(method, url, data, callback) {
  }).done(function(data){
    if (callback) return callback(data);
  }).fail(function(data) {
- 	// console.log(token)
    displayErrors(data.responseJSON.message);
  });
 }

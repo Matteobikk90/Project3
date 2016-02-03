@@ -12,9 +12,8 @@ function init(){
  $("body").on("click", ".likePost", likePost);
  $("body").on("click", ".dislikePost", dislikePost);
  $('body').on('cancel', hideForm());
-
- hideErrors();
- checkLoginState();
+  hideErrors();
+  checkLoginState();
 }
 
 function hideForm() {
@@ -63,7 +62,7 @@ function submitForm(){
 // REMOVE item - post or user
 function removeItem(){
   event.preventDefault();
-  var itemToRemove = $(this).parent();
+  var itemToRemove = $(this).parent().parent().parent();
   $.ajax({
     url:'http://localhost:3000/'+$(this).data().id,
     type:'delete',
@@ -100,8 +99,8 @@ function editPost(){
 
 var updatePost = function(){
   event.preventDefault();
-  var postDiv = $(this).parent().parent()
-  var post = {
+  var postDiv = $(this).parent().parent();
+    var post = {
     post:{
       title: $("#edit-title").val(),
       description: $("#edit-description").val(),
@@ -117,7 +116,7 @@ var updatePost = function(){
     beforeSend: setRequestHeader
   }).done(function(post){
     postDiv.empty();
-    postDiv.prepend("<div class='col-md-10 mainPostDiv'><h5>" + post.post.category + "</h5><h5>" + post.post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.post.url) + "'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br>" + "<a href='/profile.html'>" + post.post.user.local.username + "</a>" + "</div>");
+    postDiv.prepend("<div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.post.category + "</h5><h5>" + post.post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.post.url) + "' target='_blank'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post.post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post.post._id + "likeButton' href='#'data-id='"+post.post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post.post._id + "dislikeButton' data-id='"+post.post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.post.user._id + "' href='/profile.html'>" + post.post.user.local.username + "</a><br><p id='" + post.post._id + "likeCount'>" +  post.post.userLikes.length +  "</p></div></div>");
     $('#edit-post').slideUp();
   });
 }
@@ -155,15 +154,17 @@ function displayPosts(data){
    var text = encodeURI(uri)
 
    if (i<7) {
-    $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
+    $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
    } 
    else if (i>28) {
-    $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
+    $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br>" + "<p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
 
    } else {
-    $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");}
+    $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5>" + post.category + "</h5><h5>" + post.language + "</h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");}
  })
 };
+
+/* TWITTER "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a> */
 
 function likePost() {
   var id = $(this).data().id;

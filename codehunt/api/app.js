@@ -1,4 +1,5 @@
 var express        = require('express');
+var ejsLayouts  = require('express-ejs-layouts')
 var cors           = require('cors');
 var path           = require('path');
 var morgan         = require('morgan');
@@ -21,6 +22,11 @@ mongoose.connect(config.database);
 
 //require passport
 require('./config/passport')(passport);
+
+//set view engine and define view directory 
+app.set('view engine', 'ejs')
+app.use(ejsLayouts)
+app.set('views', './views')
 
 //method override
 app.use(methodOverride(function(req, res){

@@ -20,13 +20,10 @@ router.route('/:postid')
 	.delete(postsController.deletePost)
 	.get(postsController.showPost);
 
-
-
 router.route('/profile/:userid')
 	.get(usersController.usersShow)
 	.patch(usersController.usersUpdate)
 	.delete(usersController.usersDelete);
-
 
 router.route('/:postid/like')
 	.get(postsController.likePost);
