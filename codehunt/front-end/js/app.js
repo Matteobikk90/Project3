@@ -10,6 +10,7 @@ function init(){
  $(".register-link").on("click", signup);
  $("body").on("click", ".delete", removeItem);
  $('body').on('click', '.edit', editPost);
+ $('body').on('click', '.profile', setProfile);
  $('#user-form-button').on('click', newPost);
  hideErrors();
  checkLoginState();  
@@ -62,6 +63,16 @@ function removeItem(){
     itemToRemove.remove();
   });
 }
+
+
+// SET userID in local storage to be the id of the user whose profile you want to see
+function setProfile(post){
+  console.log($(this).data("id"))
+  console.log("setProfile")
+  localStorage.setItem("userID", $(this).data("id"))
+};
+
+
 
 // EDIT post
 function editPost(){
@@ -147,12 +158,20 @@ function displayPosts(data){
    console.log(i)
 
    if (i<7) {
-    $(".weekposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+    var uri = ". Check this out: " + post.title + ". url:" + post.url
+    var text = encodeURI(uri)
+    console.log(text)
+    $(".weekposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='profile' href='/profile.html' data-id='"+post.user._id+"'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a></div>");
+
+    // PUT THE CORRENT HREF IN
    } 
    else if (i>28) {
-    $(".earlierposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+    $(".earlierposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='profile' href='/profile.html' data-id='"+post.user._id+"'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a></div>");
+
    } else {
-    $(".monthposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a href='/profile.html'>" + post.user.local.username + "</a></div>");
+    $(".monthposts").prepend("<div class='post-tile'><h2><a href='" + post.url + "'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "<p>" + post.category + "</p>" + "<p>" + post.language + "</p>" + "<br><a data-id='"+post._id+"' class='delete' href='#'>Delete</a> | <a href='#' class='edit' data-id='"+post._id+"'>Edit</a><br><a class='profile' href='/profile.html' data-id='"+post.user._id+"'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a></div>");
+
+
    }
 
 

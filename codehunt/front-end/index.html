@@ -8,16 +8,20 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="/js/app.js"></script>
+  <script src="//platform.twitter.com/widgets.js"></script>
 </head>
 <body>
   <header>
     <nav>
       <ul>
         <li><a id="index-button" href="#">CodeHunt</a></li> 
+        <!-- THIS IS NEW -->  
         <li><a id="user-form-button" href="#" style="font-size: 40px">+</a></li>
         <li><a class="register-link logged-out" href="/">Register</a></li>
         <li><a class="login-link logged-out" href="/">Login</a></li>
         <li><a class="logout-link logged-in" href="/">Logout</a></li>
+        <li><a href="http://twitter.com/intent/user?screen_name=followvm">Follow CodeHunt on Twitter</a></li>
+
       </ul>
     </nav>
   </header>
@@ -96,6 +100,11 @@
       <input type="submit" value='Save' id="submit">
     </form>
   </section>    
+
+
+
+  </div>
+
 
   <!-- This div needs to be dynamic to show the week -->
   <section id="posts">

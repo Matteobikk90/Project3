@@ -4,6 +4,7 @@ $(init);
 
 
 function init(){
+ // console.log(data("id"))
  $("form").on("submit", submitForm);
  $(".logout-link").on("click", logout);
  // $(".login-link, .register-link, .users-link").on("click", showPage);
@@ -13,7 +14,9 @@ function init(){
  console.log(localStorage.getItem("userID"));
  getName();
  // hideErrors();
+
  checkLoginState();  
+
 }
 
 

@@ -45,6 +45,7 @@ app.use('/', expressJWT({ secret: secret })
       { url: '/signin', methods: ['POST'] },
       { url: '/signup', methods: ['POST'] },
       { url: '/', methods: ['GET'] },
+      { url: '/profile.html', methods: ['GET'] },
     ]
   }));
 
