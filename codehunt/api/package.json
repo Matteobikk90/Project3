@@ -11,7 +11,6 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
-    "bootstrap-multiselect": "^0.9.13-1",
     "cookie-parser": "^1.0.1",
     "cors": "^2.7.1",
     "express": "~4.0.0",
