@@ -25,4 +25,10 @@ router.route('/profile/:userid')
 	.patch(usersController.usersUpdate)
 	.delete(usersController.usersDelete);
 
+router.route('/:postid/like')
+	.get(postsController.likePost);
+
+router.route('/:postid/dislike')
+	.get(postsController.dislikePost);
+
 module.exports = router;

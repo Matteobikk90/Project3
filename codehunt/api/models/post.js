@@ -9,7 +9,8 @@ var postSchema = new mongoose.Schema({
     url: { type: String, required: true },
     category: { type: String },
     language: { type: String },
-    user: { type: Schema.Types.ObjectId, ref: 'User' }
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    userLikes: [{type: Schema.Types.ObjectId, ref: 'User', unique: true, dropDups: true}],
 	},
 	{
     timestamps: { 
