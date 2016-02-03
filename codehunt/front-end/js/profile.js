@@ -9,9 +9,11 @@ function init(){
  $('body').on('click', '.editUser', editUser);
  $('body').on('click', '.editPost', editPost);
  $('#user-form-button').on('click', newPost);
+
  getName();
  hideErrors();
- checkLoginState();    
+ checkLoginState(); 
+
 }
 
 function getName(){

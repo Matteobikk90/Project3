@@ -10,6 +10,13 @@ html {
   box-sizing: border-box;
 }
 
+.profileplaceholder {
+  background-image:url('../images/profileplaceholder.jpg');
+  width:200px;
+  height: 200px;
+  background-size: cover;
+}
+
 /*FORM*/
 
 #new-post, #edit-post, #new-user,/* #edit-user */ {
