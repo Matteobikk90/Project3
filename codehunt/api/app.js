@@ -44,7 +44,6 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(passport.initialize());
 
-
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     return res.status(401).json({message: 'Unauthorized request.'});
@@ -52,16 +51,11 @@ app.use(function (err, req, res, next) {
   next();
 });
 
-// get current user
-app.use(function(req, res, next){
+/*var routes = require('./config/routes');
+app.use("/", routes); */
 
-  global.currentUser = req.user;
-  next();
-});
 
-//routes
-var routes = require('./config/routes');
-app.use("/", routes , expressJWT( { secret: secret })
+app.all("/" ,  expressJWT( { secret: secret })
   .unless({
     path: [
       { url: '/signin', methods: ['POST'] },
@@ -72,5 +66,18 @@ app.use("/", routes , expressJWT( { secret: secret })
       { url: '/language/:language', methods: ['GET'] }
     ]
   }));
+
+// get current user
+app.use(function(req, res, next){
+  console.log(req.user);
+  global.currentUser = req.user;
+  next();
+});
+
+//routes
+ var routes = require('./config/routes');
+  app.use("/", routes); 
+
+
 
 app.listen(3000);

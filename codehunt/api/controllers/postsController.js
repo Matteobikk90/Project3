@@ -28,8 +28,10 @@ function showPost(req, res) {
 
 //create new post
 function addPost(req, res) {
+	//console.log("currentuser" global.currentUser.$__.scope._id)
+
 	User.findById({_id: global.currentUser.$__.scope._id}, function(err, user) {
-		
+
 		if (err) return res.status(400).json({message: "Error"});
 
 		var post = new Post({
