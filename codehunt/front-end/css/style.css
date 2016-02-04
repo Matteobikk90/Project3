@@ -368,14 +368,26 @@ video {
   position: relative;
 }
 
-.info_reveal {
+.info-container {
   padding: 1em;
-  background: #8abeb2;
+  background: rgba(19,148,119,0.9);
   opacity: 0.9;
   position: absolute;
   top: 0;
   width: 100%;
+  height: 0%;
+  visibility: hidden;
+}
+
+.to-bottom {
+  position: absolute;
+  bottom: 0;
+}
+
+.img-container:hover .info-container {
+  visibility: visible;
   height: 100%;
+  transition: height 0.5s;
 }
 
 /*.clearfix:after {
