@@ -165,13 +165,32 @@ function togglePostButtons(post) {
     var id = post._id;
     $("#" + id + "deleteToggle").show();
     $("#" + id + "editToggle").show();
-    $('.likePost, .dislikePost').show();
+    // $('.likePost, .dislikePost').show();
   } else if (localStorage.getItem('loggedInUserID')) {
     $('.edit, .delete').hide()
-    $('.likePost, .dislikePost').show();
+    // $('.likePost, .dislikePost').show();
   } else {
     $('.delete, .edit, .likePost, .dislikePost').hide();
   }
+}
+
+function toggleLike(post) {
+    // console.log(post.userLikes)
+    // console.log(localStorage.getItem('loggedInUserID')) 
+    var a = post.userLikes
+    var id = post._id;
+    a.forEach(function(user) {
+        console.log(user);
+        if (user == localStorage.getItem('loggedInUserID')) {
+          console.log('liked this post')
+          $("#" + id + "dislikeButton").show();
+          $("#" + id + "likeButton").hide();
+        } else {
+          console.log('user hasnt liked this post')
+          $("#" + id + "dislikeButton").hide();
+          $("#" + id + "likeButton").show();
+        }
+    });
 }
 
 function displayPosts(data){
@@ -180,25 +199,28 @@ function displayPosts(data){
  console.log(data)
  return $.each(data.posts, function(index, post) {
 
+
    var n=Date.now();
    var d=new Date(Date.now())
    var c=new Date(post.created_at)
    
    var i = (d-c)/24/60/60/1000
-
-   var uri = ". Check this out: " + post.title + ". url:" + post.url
+   var uri = post.title + " - " + post.url + " via @Codehunt - codehunt.com "  
    var text = encodeURI(uri)
 
    if (i<7) {
-    $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a></h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='delete' href='#'>Delete</a> <a href='#' class='edit' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br><a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a>" + "<p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
+    $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a></h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='delete' href='#'>Delete</a> <a href='#' class='edit' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br><a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?text=" + text + "'>Tweet this post</a>" + "<p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
     togglePostButtons(post);
+    toggleLike(post);
    } 
    else if (i>28) {
-    $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a></h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='delete' href='#'>Delete</a> <a href='#' class='edit' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br><a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a>" + "<p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
+    $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a></h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='delete' href='#'>Delete</a> <a href='#' class='edit' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br><a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><a href='https://twitter.com/intent/tweet?text=" + text + "'>Tweet this post</a>" + "<p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
     togglePostButtons(post);
+    toggleLike(post);
    } else {
-    $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a></h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='delete' href='#'>Delete</a> <a href='#' class='edit' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><p id='" + post._id + "likeCount'><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a>" + post.userLikes.length +  "</p></div></div></div>");
+    $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a></h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='delete' href='#'>Delete</a> <a href='#' class='edit' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a class='profile' data-id='" + post.user._id + "' href='/profile.html'>" + post.user.local.username + "</a><br><p id='" + post._id + "likeCount'><a href='https://twitter.com/intent/tweet?text=" + text + "'>Tweet this post</a>" + post.userLikes.length +  "</p></div></div></div>");
     togglePostButtons(post);
+    toggleLike(post);
   }
  })
 
@@ -272,8 +294,8 @@ function setToken(data) {
   localStorage.setItem("userID", data.user._id )
   localStorage.setItem("token", data.token)
   localStorage.setItem("loggedInUserID", data.user._id)
-  localStorage.setItem("category", data.post.category )
-  localStorage.setItem("language", data.post.language )
+  // // localStorage.setItem("category", data.post.category )
+  // localStorage.setItem("language", data.post.language )
 }
 
 function getToken() {
