@@ -44,16 +44,6 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(passport.initialize());
 
-//restrict routes
-app.use('/', expressJWT({ secret: secret })
-  .unless({
-    path: [
-      { url: '/signin', methods: ['POST'] },
-      { url: '/signup', methods: ['POST'] },
-      { url: '/', methods: ['GET'] },
-      { url: '/profile.html', methods: ['GET'] },
-    ]
-  }));
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
@@ -71,6 +61,16 @@ app.use(function(req, res, next){
 
 //routes
 var routes = require('./config/routes');
-app.use("/", routes);
+app.use("/", routes , expressJWT( { secret: secret })
+  .unless({
+    path: [
+      { url: '/signin', methods: ['POST'] },
+      { url: '/signup', methods: ['POST'] },
+      { url: '/', methods: ['GET'] },
+      { url: '/profile/:userid', methods: ['GET'] },
+      { url: '/category/:category', methods: ['GET'] },
+      { url: '/language/:language', methods: ['GET'] }
+    ]
+  }));
 
 app.listen(3000);

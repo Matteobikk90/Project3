@@ -15,11 +15,6 @@ router.route('/')
 	.get(postsController.postsIndex)
 	.post(postsController.addPost);
 
-router.route('/:postid')
-	.patch(postsController.updatePost)
-	.delete(postsController.deletePost)
-	.get(postsController.showPost);
-
 router.route('/profile/:userid')
 	.get(usersController.usersShow)
 	.patch(usersController.usersUpdate)
@@ -36,5 +31,10 @@ router.route('/:postid/like')
 
 router.route('/:postid/dislike')
 	.get(postsController.dislikePost);
+
+	router.route('/:postid')
+		.patch(postsController.updatePost)
+		.delete(postsController.deletePost)
+		.get(postsController.showPost);
 
 module.exports = router;

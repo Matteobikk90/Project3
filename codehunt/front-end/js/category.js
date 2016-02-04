@@ -3,6 +3,8 @@ $(init);
 function init(){
   $(".new-post").on("submit", submitForm);
   $(".edit-post").on("submit", submitForm);
+  $(".sigin").on("submit", submitForm);
+  $(".signup").on("submit", submitForm);
    $(".logout-link").on("click", logout); 
    $(".login-link").on("click", signin);
    $(".register-link").on("click", signup);
@@ -12,6 +14,9 @@ function init(){
    $('#user-form-button').on('click', newPost);
    $("body").on("click", ".likePost", likePost);
    $("body").on("click", ".dislikePost", dislikePost);
+   $('body').on('click', '.profile', setProfile);
+   $('body').on('click', '.category', setCategory);
+   $('body').on('click', '.language', setLanguage);
  getName();
  hideErrors();
  checkLoginState(); 
@@ -22,8 +27,6 @@ function newPost() {
   $('#new-post').slideToggle();
   $('#edit-post').slideUp();
 }
-
-
 
 // EDIT post
 function editPost(){
@@ -252,6 +255,7 @@ function displayUserPosts(data){
 };
 
 function likePost() {
+  event.preventDefault();
   var id = $(this).data().id;
  $.ajax({
    url:'http://localhost:3000/'+$(this).data().id+"/like",
@@ -266,6 +270,7 @@ function likePost() {
 }
 
 function dislikePost() {
+  event.preventDefault();
   var id = $(this).data().id;
   console.log(id)
  $.ajax({

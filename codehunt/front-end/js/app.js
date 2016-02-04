@@ -233,6 +233,7 @@ function displayPosts(data){
 };
 
 function likePost() {
+  event.preventDefault()
   var id = $(this).data().id;
  $.ajax({
    url:'http://localhost:3000/'+$(this).data().id+"/like",
@@ -247,6 +248,7 @@ function likePost() {
 }
 
 function dislikePost() {
+  event.preventDefault()
   var id = $(this).data().id;
  $.ajax({
    url:'http://localhost:3000/'+$(this).data().id+"/dislike",
@@ -300,8 +302,6 @@ function setToken(data) {
   localStorage.setItem("userID", data.user._id )
   localStorage.setItem("token", data.token)
   localStorage.setItem("loggedInUserID", data.user._id)
-  // // localStorage.setItem("category", data.post.category )
-  // localStorage.setItem("language", data.post.language )
 }
 
 function getToken() {
