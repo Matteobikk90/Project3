@@ -364,6 +364,20 @@ video {
   width: 100%;
 }
 
+.img-container {
+  position: relative;
+}
+
+.info_reveal {
+  padding: 1em;
+  background: #8abeb2;
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /*.clearfix:after {
   content: "";
   visibility: hidden;
