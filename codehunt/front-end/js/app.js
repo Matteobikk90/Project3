@@ -264,6 +264,8 @@ function setToken(data) {
   localStorage.setItem("userID", data.user._id )
   localStorage.setItem("token", data.token)
   localStorage.setItem("loggedInUserID", data.user._id)
+  localStorage.setItem("category", data.post.category )
+  localStorage.setItem("language", data.post.language )
 }
 
 function getToken() {
