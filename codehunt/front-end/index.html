@@ -45,6 +45,17 @@
       </div>
     </nav>
   </header>
+
+  <div class="header-videoContainer">
+     <div class="video-container">
+        <video preload="true" autoplay="autoplay" loop="loop" volume="0">
+           <source src="video/video.mp4" type="video/mp4">
+        </video>
+     </div>
+   </div>  
+   <main>
+   <div class="container">
+     <div class="hide alert alert-danger" role="alert"></div>
   
   <main>
   <div class="container">
@@ -53,8 +64,8 @@
   <section id="new-post"> 
   <h2>Add New Post</h2>
     <form class="new-post form-inline" method="post" action="/">
-      <input type="text" name='title' class="form-control" id="title" placeholder="Title">
-      <input type="text" name='description' class="form-control" id="description" placeholder="Description">
+      <input type="text" maxlength= "50" name='title' class="form-control" id="title" placeholder="Title">
+      <input type="text" maxlength= "250" name='description' class="form-control" id="description" placeholder="Description">
       <input type="text" name='url' class="form-control" id="url" placeholder="URL">
       <select class="form-control" name="category" id="category">
         <option value="" disabled selected>Select Category</option>
@@ -85,8 +96,8 @@
   <section id="edit-post">
   <h2>Edit Post</h2>
     <form class="edit-post form-inline" method="patch" action="/" >
-      <input type="text" name='title' id="edit-title" class="form-control" placeholder="Title">
-      <input type="text" name='description' id="edit-description" class="form-control" placeholder="Description">
+      <input type="text" maxlength= "50" name='title' id="edit-title" class="form-control" placeholder="Title">
+      <input type="text" maxlength= "250" name='description' id="edit-description" class="form-control" placeholder="Description">
       <input type="text" name='url' id="edit-url" class="form-control" placeholder="URL">
       <select class="form-control" name="category" id="edit-category">
         <option value="Category" disabled selected>Select Category</option>
@@ -117,7 +128,7 @@
   <section id="signupsection">
   <h2>Sign Up</h2>
     <form class="signup form-inline" id="signup" method="post" action="/signup">
-      <input type="text" name='username' id="username" class="form-control" placeholder="Username">
+      <input type="text" maxlength= "20" name='username' id="username" class="form-control" placeholder="Username">
       <input type="text" name='firstName' id="firstName" class="form-control" placeholder="First Name">
       <input type="text" name='lastName' id="lastName" class="form-control" placeholder="Last Name">
       <input type="email" name='email' id="email" class="form-control" placeholder="Email">
