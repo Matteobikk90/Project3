@@ -179,6 +179,11 @@ function toggleLike(post) {
     // console.log(localStorage.getItem('loggedInUserID')) 
     var a = post.userLikes
     var id = post._id;
+
+    if (post.userLikes.length == 0) {
+      $("#" + id + "dislikeButton").hide();
+      $("#" + id + "likeButton").show();
+    } else {
     a.forEach(function(user) {
         console.log(user);
         if (user == localStorage.getItem('loggedInUserID')) {
@@ -191,6 +196,7 @@ function toggleLike(post) {
           $("#" + id + "likeButton").show();
         }
     });
+  }
 }
 
 function displayPosts(data){
