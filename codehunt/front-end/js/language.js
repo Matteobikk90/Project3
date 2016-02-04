@@ -61,7 +61,7 @@ var updatePost = function(){
     beforeSend: setRequestHeader
   }).done(function(post){
     postDiv.empty();
-    postDiv.replaceWith("<div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.post.category + "' href='/category.html'>" + post.post.category + "</a></h5> <h5><a class='language' data-id='" + post.post.language + "' href='/language.html'>" + post.post.language + "</a><h5>" +  "<h2><a href='//" + encodeURI(post.post.url) + "' target='_blank'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post.post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post.post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post.post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post.post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<br><p id='" + post.post._id + "likeCount'>" +  post.post.userLikes.length +  "</p></div></div>");
+    postDiv.replaceWith("<div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.post.category + "' href='/category.html'>" + post.post.category + "</a></h5> <h5><a class='language' data-id='" + post.post.language + "' href='/language.html'>" + post.post.language + "</a><h5>" +  "<h2><a href='//" + encodeURI(post.post.url) + "' target='_blank'>" + post.post.title + "</a></h2><p>" + post.post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post.post._id+"' id='" + post.post._id + "deleteToggle' class='deletePost' href='#'>Delete</a> <a href='#' class='editPost' id='" + post.post._id + "editToggle' data-id='"+post.post._id+"'>Edit</a><br><a class='likePost' id='" + post.post._id + "likeButton' href='#'data-id='"+post.post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post.post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a><br><p id='" + post.post._id + "likeCount'>" +  post.post.userLikes.length +  "</p></div></div>");
     $('#edit-post').slideUp();
   });
 }
@@ -165,6 +165,22 @@ function getPosts(){
  return ajaxRequest("get", url, null, displayUserPosts)
 }
 
+function togglePostButtons(post) {
+  if (localStorage.getItem('loggedInUserID') == post.user._id) {
+    console.log('my post')
+    //get ids
+    var id = post._id;
+    $("#" + id + "deleteToggle").show();
+    $("#" + id + "editToggle").show();
+    $('.likePost, .dislikePost').show();
+  } else if (localStorage.getItem('loggedInUserID')) {
+    $('.editPost, .deletePost').hide()
+    $('.likePost, .dislikePost').show();
+  } else {
+    $('.deletePost, .editPost, .likePost, .dislikePost').hide();
+  }
+}
+
 function displayUserPosts(data){
  hideErrors();
  hidePosts();
@@ -183,12 +199,15 @@ function displayUserPosts(data){
    console.log(text)
 
      if (i<7) {
-      $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a><h5>" +  "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<br><p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "</p></div></div></div>");
+      $(".weekposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a><h5>" +  "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='deletePost' href='#'>Delete</a> <a href='#' class='editPost' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' id='" + post._id + "likeButton' href='#'data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<p id='" + post._id + "likeCount'>" +  post.userLikes.length +  "<br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a></p></div></div></div>");
+     togglePostButtons(post)
      } 
      else if (i>28) {
-      $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a><h5>" +  "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br>" + "<br><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
+      $(".earlierposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a><h5>" +  "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='deletePost' href='#'>Delete</a> <a href='#' class='editPost' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' id='" + post._id + "dislikeButton' href='#' data-id='"+post._id+"'>Dislike</a><br>" + "<p id='" + post._id + "likeCount'>" + post.userLikes.length +  "<br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a></p></div></div></div>");
+     togglePostButtons(post)
      } else {
-      $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a><h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' class='deletePost' href='#'>Delete</a> | <a href='#' class='editPost' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<br><p id='" + post._id + "likeCount'>" + post.userLikes.length +  "</p></div></div></div>");
+      $(".monthposts").prepend("<div class='post-tile'><div class='row'><div class='col-md-10 mainPostDiv'><h5><a class='category' data-id='" + post.category + "' href='/category.html'>" + post.category + "</a></h5> <h5><a class='language' data-id='" + post.language + "' href='/language.html'>" + post.language + "</a><h5>" + "<h2><a href='//" + encodeURI(post.url) + "' target='_blank'>" + post.title + "</a></h2><p>" + post.description + "</p>" + "</div><div class='col-md-2 subPostDiv'><a data-id='"+post._id+"' id='" + post._id + "deleteToggle' class='deletePost' href='#'>Delete</a> <a href='#' class='editPost' id='" + post._id + "editToggle' data-id='"+post._id+"'>Edit</a><br><a class='likePost' href='#' id='" + post._id + "likeButton' data-id='"+post._id+"'>Like</a> <a class='dislikePost' href='#' id='" + post._id + "dislikeButton' data-id='"+post._id+"'>Dislike</a><br>" + "<p id='" + post._id + "likeCount'>" + post.userLikes.length +  "<br><a href='https://twitter.com/intent/tweet?via=CodeHunt" + text + "'>Tweet this page with a Pop-Up</a></p></div></div></div>");
+    togglePostButtons(post)
     }
    })
 };
@@ -238,6 +257,7 @@ function authenticationSuccessful(data) {
 function setToken(data) {
   localStorage.setItem("language", data.post.language )
   localStorage.setItem("token", data.token)
+  localStorage.setItem("loggedInUserID", data.user._id)
 }
 
 function getToken() {
