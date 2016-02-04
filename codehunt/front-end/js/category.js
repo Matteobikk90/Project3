@@ -151,8 +151,9 @@ function loggedInState(){
 }
 
 function loggedOutState(){
- $("section, .logged-in").hide();
- $("#signup, #signin, .logged-out").show();
+  $("section, .logged-in").hide();
+  $("#posts, #signup, #signin, .logged-out").show();
+  $('#new-post, #user-form-button, .profileDropDown').hide();
  return hidePosts();
 }
 
