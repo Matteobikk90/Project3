@@ -137,13 +137,19 @@ function submitFormUser(){
 function removeItem(){
   event.preventDefault();
   var itemToRemove = $(this).parent().parent().parent();
-  $.ajax({
-    url:'http://localhost:3000/'+$(this).data().id,
-    type:'delete',
-    beforeSend: setRequestHeader
-  }).done(function() {
-    itemToRemove.remove();
-  });
+  var urldata = $(this).data().id;
+
+  swal({   title: "Are you sure you want to delete this post?",   showCancelButton: true,   confirmButtonColor: "#DD6B55",   confirmButtonText: "Delete",   cancelButtonText: "Cancel",   closeOnConfirm: true,   closeOnCancel: true }, function(isConfirm){   if (isConfirm) {     
+    
+    $.ajax({
+      url:'http://localhost:3000/'+urldata,
+      type:'delete',
+      beforeSend: setRequestHeader
+    }).done(function() {
+      itemToRemove.remove();
+    });  
+
+  }})   
 }
 
 function loggedInState(){
