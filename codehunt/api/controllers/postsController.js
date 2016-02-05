@@ -41,6 +41,12 @@ function addPost(req, res) {
 			user: user._id
 		});
 
+		var prefix = 'http://';
+		        if (post.url.substr(0, prefix.length) !== prefix)
+		        {
+		            post.url = prefix + post.url;
+		        }
+
 		user.posts.push(post);
 
 		post.save(function(err) {if (err) return res.status(400).json({message: "Error"})});
@@ -62,6 +68,13 @@ function updatePost(req, res) {
 		if (req.body.url) post.url = req.body.url;
 		if (req.body.category) post.category = req.body.category;
 		if (req.body.language) post.language = req.body.language; 
+
+		
+		var prefix = 'http://';
+		        if (post.url.substr(0, prefix.length) !== prefix)
+		        {
+		            post.url = prefix + post.url;
+		        }
 
 		post.save(function(err, updatedPost) {
 			if (err) return res.status(500).json({message: "Error"});

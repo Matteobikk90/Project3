@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CodeHunt</title>
+  <link rel="stylesheet" type="text/css" href="./css/reset.css">
+  <script src="./js/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/sweetalert.css">
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="//platform.twitter.com/widgets.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <link rel="stylesheet" type="text/css" href="./css/styleteam.css">
+</head>
+<body>
+  <header>
+  <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img id="navImage" alt="Logo" src="/images/logo.png" height="35">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a class="register-link logged-out" href="/">Sign Up</a></li>
+          <li><a class="login-link logged-out" href="/">Login</a></li>
+          <li><a id="user-form-button" href="#" style="font-size: 25px">+</a></li>
+          <li class="dropdown profileDropDown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/profile.html">Profile</a></li>
+              <li><a class="logout-link logged-in" href="/">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+   <div class="container">
+     <div class="hide alert alert-danger" role="alert"></div>
+     <div class="containerPictures">
+       <div class="row">
+         <div class="col-md-4">
+           <div class="team_member">
+               <div class="info">
+                 <div class="img-container">
+                   <img src="./images/matteo.jpg" class="photo" alt=""/>
+                   <div class="info-container">
+                     <div class="to-bottom">
+                       <h6>Contact<br/>Matteo Soresini</h6>
+                       <p><a href="mailto:address@addresss.com">matteo.soresini@hotmail.it</a></p>
+                     </div>
+                   </div>
+                 </div>
+                 <h5>Matteo Soresini</h5>
+             </div>
+           </div>
+         </div>
+         <div class="col-md-4">
+           <div class="team_member">
+               <div class="info">
+                 <div class="img-container">
+                   <img src="./images/emma.jpg" class="photo" alt=""/>
+                   <div class="info-container">
+                     <div class="to-bottom">
+                       <h6>Contact<br/>Emma Jones</h6>
+                       <p><a href="mailto:address@addresss.com">hi@emmajonesy.com</a></p>
+                     </div>
+                   </div>
+                 </div>
+                 <h5>Emma Jones</h5>
+             </div>
+           </div>
+         </div>
+         <div class="col-md-4">
+           <div class="team_member">
+               <div class="info">
+                 <div class="img-container">
+                   <img src="./images/vivek.jpg" class="photo" alt=""/>
+                   <div class="info-container">
+                     <div class="to-bottom">
+                       <h6>Contact<br/>Vivek Madlani</h6>
+                       <p><a href="mailto:address@addresss.com">vivek.madlani@gmail.com</a></p>
+                     </div>
+                   </div>
+                 </div>
+                 <h5>Vivek Madlani</h5>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+  <div class="footer">
+  <a href="http://twitter.com/intent/user?screen_name=followvm">Twitter</a>
+  | <a href="/team.html">Team</a>
+  </div>
+</div>
+  </main>
+</body>
+</html>
