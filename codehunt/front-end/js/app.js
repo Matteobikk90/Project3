@@ -208,7 +208,7 @@ function displayPosts(data){
      var d=new Date(Date.now())
      var c=new Date(post.created_at)
      
-     var i = (d-c)/24/60/60/1000
+     var i = (d-c)/24/60/60/1000 *10
      var uri = post.title + " - " + post.url + " via @Codehunt - codehunt.com "  
      var text = encodeURI(uri)
      if (i<7) {

@@ -3,6 +3,7 @@ var databaseURL = 'mongodb://localhost/codehunt';
 mongoose.connect(databaseURL);
 var Post = require("./models/post"); 
 var User    = require("./models/user");
+
 var user1 = new User({
   local: {
     username: "Matteobikk90",
@@ -13,6 +14,7 @@ var user1 = new User({
   },
 image:"http://i.imgur.com/DrMccBI.jpg"
 })
+
 user1.save(function(err, user) {
  if (err) return console.log(err);
  console.log("User saved! ", user);
@@ -73,6 +75,7 @@ post4.save(function(err, post) {
  user1.save()
 })
 })
+
 var user2 = new User({
     local: {
   username: "EmmaJ",
@@ -323,5 +326,77 @@ post20.save(function(err, post) {
  console.log("Post saved! ", post);
  user.posts.push(post._id)
  user3.save()
+})
+})
+
+var user4 = new User({
+  local: {
+    username: "WDI-17",
+    firstName: "WDI London 17",
+    lastName: "Team Console",
+    email: "wdi17@mail.com",
+    password:"$2a$08$FEIhGwsox0sjkwOwu9ASDu7yJ.5fis14Sh2ekFHZMclkA1UW6nzoq"
+  },
+image:"http://i.imgur.com/DrMccBI.jpg"
+})
+
+user4.save(function(err, user) {
+ if (err) return console.log(err);
+ console.log("User saved! ", user);
+var post21 = new Post({
+  title: "Ruby Array methods cheat sheet",
+  description: "from tutorials point",
+  url: "http://www.tutorialspoint.com/ruby/ruby_arrays.html",
+  category: "Tutorial",
+  language: "Ruby",
+  user: user._id
+})
+post21.save(function(err, post) {
+ if (err) return console.log(err);
+ console.log("Post saved! ", post);
+ user.posts.push(post._id)
+ user4.save()
+})
+var post22 = new Post({
+  title: "Handy Sublime Packages",
+  description: "AutoSpell, ColorPiker, BracketHighlighter, CSSFontFamily, To see all possible CSS attributes, use ctrl+space",
+  url: "https://packagecontrol.io/",
+  category: "Product",
+  language: "Other",
+  user: user._id
+})
+post22.save(function(err, post) {
+ if (err) return console.log(err);
+ console.log("Post saved! ", post);
+ user.posts.push(post._id)
+ user4.save()
+})
+var post23 = new Post({
+  title: "Good tutorial on mongoose",
+  description: "step by ste guide with a great worked example",
+  url: "http://mongoosejs.com/docs/populate.html",
+  category: "Tutorial",
+  language: "Other",
+  user: user._id
+})
+post23.save(function(err, post) {
+ if (err) return console.log(err);
+ console.log("Post saved! ", post);
+ user.posts.push(post._id)
+ user4.save()
+})
+var post24 = new Post({
+  title: "Basic tutorial on devise here",
+  description: "step by step guide to installing the gem and embedding it into a rails app",
+  url: "http://guides.railsgirls.com/devise/",
+  category: "Tutorial",
+  language: "Ruby",
+  user: user._id
+})
+post24.save(function(err, post) {
+ if (err) return console.log(err);
+ console.log("Post saved! ", post);
+ user.posts.push(post._id)
+ user4.save()
 })
 })
